@@ -1,0 +1,1 @@
+console.log("Het globale javascript bestand is gekoppeld");

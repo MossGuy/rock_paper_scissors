@@ -1,0 +1,4 @@
+class diagram:
+player > score
+game > game_options
+

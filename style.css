@@ -1,0 +1,115 @@
+/* Fundering */
+:root {
+    --Scissors_Gradient: hsl(39, 89%, 49%) to hsl(40, 84%, 53%);
+    --Paper_Gradient: hsl(230, 89%, 62%) to hsl(230, 89%, 65%);
+    --Rock_Gradient: hsl(349, 71%, 52%) to hsl(349, 70%, 56%);
+    --Lizard_Gradient: hsl(261, 73%, 60%) to hsl(261, 72%, 63%);
+    --Cyan: hsl(189, 59%, 53%) to hsl(189, 58%, 57%);
+
+    --Dark_Text: hsl(229, 25%, 31%);
+    --Score_Text: hsl(229, 64%, 46%);
+    --Header_Outline: hsl(217, 16%, 45%);
+    --Radial_Gradient: hsl(214, 47%, 23%), hsl(237, 49%, 15%);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    font-family: "Barlow Semi Condensed", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(var(--Radial_Gradient));
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* scemantics */
+h1, h2, p, a, button {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+button, .button {
+    padding: 0.5rem;
+    background: unset;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 0.5rem;
+    font-size: large;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: hsla(0, 0%, 93%, 0.3);
+}
+
+/* header */
+header {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1.5rem;
+    border: 3px solid rgba(211, 211, 211, 0.4);
+    border-radius: 1rem;
+}
+
+.score_window {
+    position: relative;
+    background-color: #fff;
+    border-radius: 1rem;
+    color: var(--Score_Text);
+    height: 100%;
+    aspect-ratio: 1/1;
+    padding: 1.5rem;
+
+}
+
+.score_window > p {
+    color: var(--Score_Text);
+}
+
+#score {
+    color: var(--Dark_Text);
+    font-weight: 700;
+    font-size: xx-large;
+}
+
+/* footer */
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 2rem;
+    text-align: end;
+}
+
+/* main */
+main {
+    display: flex;
+    flex: 1;
+}
+
+.game_window {
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
