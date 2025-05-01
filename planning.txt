@@ -2,3 +2,10 @@ class diagram:
 player > score
 game > game_options
 
+TODO: 
+* classes maken
+* classes aanroepen in een appart php bestand
+* game logica uitschrijven
+* regels pop-up maken + werkend maken met javascript
+
+* optioneel: buttons maken zoals het design
