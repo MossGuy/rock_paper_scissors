@@ -51,7 +51,7 @@ button, .button {
     font-size: large;
 }
 
-button:hover {
+button:hover, .button:hover {
     cursor: pointer;
     background-color: hsla(0, 0%, 93%, 0.3);
 }

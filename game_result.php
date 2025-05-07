@@ -10,17 +10,7 @@
     <title>Steen Papier Schaar</title>
 </head>
 <body>
-    <header>
-        <section>
-            <h2>steen</h2>
-            <h2>papier</h2>
-            <h2>schaar</h2>
-        </section>
-        <section class="score_window">
-            <p>score</p>
-            <p id="score"></p>
-        </section>
-    </header>
+    <?php include "./web_elements/header.php"; ?>
 
     <main>
         <section class="game_window">
@@ -29,8 +19,6 @@
         </section>
     </main>
 
-    <footer>
-        <button>regels</button>
-    </footer>
+    <?php include "./web_elements/footer.php"; ?>
 </body>
 </html>
