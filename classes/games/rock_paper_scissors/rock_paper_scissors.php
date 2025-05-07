@@ -10,7 +10,7 @@ class Rock_paper_scissors extends Game {
 
     // constructor
     public function __construct(Player $player) {
-        parent::__construct("Rock_paper_scissors", $player);
+        parent::__construct("Steen <br> Papier <br> Schaar", $player);
     }
 
     // methods
