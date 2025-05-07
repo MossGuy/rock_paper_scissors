@@ -1,12 +1,23 @@
 <?php
+session_start();
+include_once "./php_functions.php/php_functions.php";
+
+ // de game kan later dymamisch worden opgehaald van de $_SESSION['active_game']
+//  game ophalen en valideren
+$active_game = "rock_paper_scissors";
+$game_available = game_check($active_game);
+
+// classes ophalen
 require_once 'classes/core/Game.php';
 require_once 'classes/core/Player.php';
 require_once 'classes/games/rock_paper_scissors/rock_paper_scissors.php';
 
 use core\Player;
-use games\rock_paper_scissors\rock_paper_scissors;
+use games\rock_paper_scissors\Rock_paper_scissors;
 
-session_start();
+// game afronden en player score updaten
+
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">

@@ -4,13 +4,13 @@ namespace games\rock_paper_scissors;
 use core\Game;
 use core\Player;
 
-class RockPaperScissors extends Game {
+class Rock_paper_scissors extends Game {
     // propperties
     private array $options = ['steen', 'papier', 'schaar'];
 
     // constructor
     public function __construct(Player $player) {
-        parent::__construct("rock_paper_scissors", $player);
+        parent::__construct("Rock_paper_scissors", $player);
     }
 
     // methods

@@ -105,6 +105,11 @@ main {
     flex: 1;
 }
 
+/* universele_classes */
+.unavailable {
+    display: none !important;
+}
+
 .game_container {
     padding: 1rem;
     width: 100%;

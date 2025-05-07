@@ -1,20 +1,32 @@
 <?php
 session_start();
 
-// de game kan later dymamisch worden opgehaald van de $_SESSION['active_game']
-$active_game = "rock_paper_scissors";
+include_once "./php_functions.php/php_functions.php";
 
-include_once "./game_logic.php";
-game_check($active_game);
+ // de game kan later dymamisch worden opgehaald van de $_SESSION['active_game']
+//  game ophalen en valideren
+$active_game = "rock_paper_scissors";
+$game_available = game_check($active_game);
 
 // classes ophalen
-require_once 'classes/core/Player.php';
-require_once 'classes/core/Game.php';
+require_once './classes/core/player.php';
+require_once 'classes/core/game.php';
 require_once 'classes/games/rock_paper_scissors/rock_paper_scissors.php';
 
 use core\Player;
-use games\rock_paper_scissors\rock_paper_scissors;
+use games\rock_paper_scissors\Rock_paper_scissors;
 
+// game initialiseren
+if ($game_available) {
+    // Init speler
+    if (!isset($_SESSION['player'])) {
+        $_SESSION['player'] = serialize(new Player("Speler 1"));
+    }
+    $player = unserialize($_SESSION['player']);
+
+    // Init game
+    $game = new Rock_paper_scissors($player);
+}
 
 ?>
 <!DOCTYPE html>
@@ -32,17 +44,17 @@ use games\rock_paper_scissors\rock_paper_scissors;
     <?php include "./web_elements/header.php"; ?>
 
     <main class="game_container">
-        <section class="game_title">
+        <section class="game_title <?= !$game_available ? 'unavailable' : '' ?>">
             <h1>Speel een spel</h1>
             <br>
         </section>
 
-        <section class="game_window">
-        <form action="./game_result.php" method="POST">
-            <input class="button" name="player_choice" id="player_choice" type="submit" value="steen">
-            <input class="button" name="player_choice" id="player_choice" type="submit" value="papier">
-            <input class="button" name="player_choice" id="player_choice" type="submit" value="schaar">
-        </form>
+        <section class="game_window <?= !$game_available ? 'unavailable' : '' ?>">
+            <p><?php print_r($game) ?></p>
+        </section>
+
+        <section class="<?=$game_available ? 'unavailable' : '' ?>">
+            <h2>De game is niet gevonden of word niet ondersteund</h2>
         </section>
     </main>
 
