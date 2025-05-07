@@ -1,6 +1,6 @@
 <header>
     <section class="<?= !$game_available ? 'unavailable' : '' ?>">
-        <!-- game titel ophalen -->
+        <!-- TODO: fout afhandeling wanneer de variabel niet gelezen kan worden -->
         <h2><?=$game->getTitle()??'Game'?></h2>
     </section>
 

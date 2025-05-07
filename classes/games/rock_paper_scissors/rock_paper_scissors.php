@@ -13,6 +13,11 @@ class Rock_paper_scissors extends Game {
         parent::__construct("Steen Papier Schaar", $player);
     }
 
+    // getters
+    public function return_options() {
+        return $this->options;
+    }
+
     // methods
     public function play(string $playerChoice): array {
         $computerChoice = $this->options[array_rand($this->options)];

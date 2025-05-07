@@ -56,7 +56,13 @@ if ($game_available) {
         </section>
 
         <section class="game_window <?= !$game_available ? 'unavailable' : '' ?>">
-            
+                <form action="./game_result.php" method="post">
+                <?php
+                foreach ($game->return_options() as $option) {
+                    echo "<input class='button' type='submit' name='player_choice', id='player_choice' value='$option'>";
+                }
+                ?>
+                </form>
         </section>
 
         <section class="<?=$game_available ? 'unavailable' : '' ?>">

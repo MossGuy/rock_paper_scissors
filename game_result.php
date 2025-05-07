@@ -2,8 +2,10 @@
 session_start();
 include_once "./php_functions.php/php_functions.php";
 
+$player = unserialize($_SESSION['player']);
+
  // de game kan later dymamisch worden opgehaald van de $_SESSION['active_game']
-//  game ophalen en valideren
+//  TODO: game ophalen en post variabel player_choice verwerken met $game->play($a) methode
 $active_game = "rock_paper_scissors";
 $game_available = game_check($active_game);
 
