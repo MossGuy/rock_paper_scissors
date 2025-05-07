@@ -1,3 +1,13 @@
+<?php
+require_once 'classes/core/Game.php';
+require_once 'classes/core/Player.php';
+require_once 'classes/games/rock_paper_scissors/rock_paper_scissors.php';
+
+use core\Player;
+use games\rock_paper_scissors\rock_paper_scissors;
+
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -13,7 +23,7 @@
     <?php include "./web_elements/header.php"; ?>
 
     <main>
-        <section class="game_window">
+        <section class="game_container">
             <h1>Uitkomst:</h1>
             <p><?php print_r($_POST)?></p>
         </section>
