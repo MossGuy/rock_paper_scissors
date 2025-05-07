@@ -50,7 +50,7 @@ if ($game_available) {
         </section>
 
         <section class="game_window <?= !$game_available ? 'unavailable' : '' ?>">
-            <p><?php print_r($game) ?></p>
+            
         </section>
 
         <section class="<?=$game_available ? 'unavailable' : '' ?>">
