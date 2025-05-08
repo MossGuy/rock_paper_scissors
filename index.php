@@ -1,62 +1,62 @@
 <?php
 session_start();
 
-include_once "./php_functions.php/php_functions.php";
+ // TODO: maak de php code in de head schoner / netter door het een en ander te verplaatsen
+// naar de functions.php
 
- // de game kan later dymamisch worden opgehaald van de $_SESSION['active_game']
-//  game ophalen en valideren
-$active_game = "rock_paper_scissors";
-$game_available = game_check($active_game);
-
-// classes ophalen
+require_once './classes/core/game.php';
 require_once './classes/core/player.php';
-require_once 'classes/core/game.php';
-require_once 'classes/games/rock_paper_scissors/rock_paper_scissors.php';
+require_once './classes/games/rock_paper_scissors/rock_paper_scissors.php';
+
+include_once "./php_functions.php/php_functions.php";
 
 use core\Player;
 use games\rock_paper_scissors\Rock_paper_scissors;
 
-// game initialiseren
-if ($game_available) {
-    // Init speler
-    if (!isset($_SESSION['player'])) {
-        $_SESSION['player'] = serialize(new Player("Speler 1"));
-    }
-    $player = unserialize($_SESSION['player']);
+//TODO:  wanneer er meer games zijn kan deze aanroep vanuit de session worden gedaan
+$active_game = 'rock_paper_scissors';
+$game_available = game_check($active_game);
 
-    // Init game
+ // TODO: gebruiker vragen om player name
+// Speler initialiseren
+if (!isset($_SESSION['player'])) {
+    $_SESSION['player'] = serialize(new Player("Speler 1"));
+}
+$player = unserialize($_SESSION['player']);
+
+// Game initialiseren
+if ($game_available) {
     switch($active_game) {
         case 'rock_paper_scissors':
+            // Maak een nieuwe instance van Rock_paper_scissors
             $game = new Rock_paper_scissors($player);
 
+            // Als de game afgerond is, verwerk de score
             if (isset($_SESSION['game_finished']) && !isset($_SESSION['round_result'])) {
-                // Speel de ronde slechts één keer
                 $_SESSION['round_result'] = $game->play($_SESSION['player_choice']);
-            
-                // Update de player in sessie met nieuwe score
-                $_SESSION['player'] = serialize($player);
+                $_SESSION['player'] = serialize($player); // Update score van de speler
             }
-    
+
+            // Als er een keuze gemaakt is, verwerk die keuze
             if (isset($_POST['player_choice'])) {
                 $_SESSION['player_choice'] = $_POST['player_choice'];
                 $_SESSION['game_finished'] = true;
-    
                 header("Location: " . $_SERVER['PHP_SELF']);
                 exit;
             }
-    
-            // Huidige spelstatus uit sessie ophalen
+
+            // Game status ophalen
             $player_choice = $_SESSION['player_choice'] ?? null;
             $game_finished = $_SESSION['game_finished'] ?? false;
+            $result_data = $_SESSION['round_result'] ?? [];
 
-            $result = $_SESSION['round_result']['result']??'';
-            
-            // game specifieke variabelen (hard coded)
-            $player_result = $_SESSION['round_result']['player']??'';
-            $cpu_result = $_SESSION['round_result']['computer']??'';
+            $result = $result_data['result'] ?? '';
+            $player_result = $result_data['player'] ?? '';
+            $cpu_result = $result_data['computer'] ?? '';
             break;
     }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -82,18 +82,19 @@ if ($game_available) {
     <main class="game_container">
         <!-- Game beginnen -->
         <section class="game_window <?= (!$game_available || $game_finished) ? 'unavailable' : '' ?>">
-                <h1>Speel een spel</h1>
-                <br>
-        
-                <form action="" method="post">
-                <?php
-                // game specifieke functie (hard coded)
-                foreach ($game->return_options() as $option) {
-                    echo "<input class='button' type='submit' name='player_choice', id='player_choice' value='$option'>";
-                }
-                ?>
-                </form>
-        </section>
+        <h1>Speel een spel</h1>
+        <br>
+
+        <!-- Formulier voor keuze input -->
+        <form action="" method="post">
+        <?php if ($game_available && !$game_finished): ?>
+            <?php foreach ($game->getOptions() as $option): ?>
+                <?= $game->renderOptionInput($option) ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        </form>
+    </section>
 
         <!-- Game afronden -->
         <section class="<?=!$game_finished ? 'unavailable' : '' ?>">

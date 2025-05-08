@@ -28,6 +28,11 @@ abstract class Game {
         return $this->player->getScore($this->title);
     }
 
-    // methods
+    // Abstract methods
+    abstract public function getOptions(): array;          // Opties voor de game
+    abstract public function renderOptionInput(string $option): string; // Renderen van knoppen (inputs)
+    abstract public function getRoundResult(): array;      // Uitslag van een ronde
+
+    // Main play method
     abstract public function play(string $playerChoice): array;
 }

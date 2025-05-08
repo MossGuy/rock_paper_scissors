@@ -8,17 +8,30 @@ class Rock_paper_scissors extends Game {
     // propperties
     private array $options = ['steen', 'papier', 'schaar'];
 
-    // constructor
+    // Constructor
     public function __construct(Player $player) {
         parent::__construct("rock_paper_scissors", "Steen <br> Papier <br> Schaar", $player);
     }
 
-    // getters
-    public function return_options() {
+    // abstracte methode implementaties
+    public function getOptions(): array {
         return $this->options;
     }
 
-    // methods
+    public function renderOptionInput(string $option): string {
+        return "<button class='icon-button' type='submit' name='player_choice' value='$option'>
+                    <img src='./images/svg_icons/rock_paper_scissors/$option.svg' alt='$option' />
+                    <p>$option</p>
+                </button>";
+    }
+
+    public function getRoundResult(): array {
+        return [
+            'player' => $this->player->getScore($this->title),
+            'computer' => 0 // cpu score kan eventueel bijgehouden worden, thx chatgpt
+        ];
+    }
+
     public function play(string $playerChoice): array {
         $computerChoice = $this->options[array_rand($this->options)];
         $result = $this->determineWinner($playerChoice, $computerChoice);
@@ -35,13 +48,14 @@ class Rock_paper_scissors extends Game {
         ];
     }
 
+    // Bereken en return winnaar als string
     private function determineWinner(string $player, string $computer): string {
         $winningPairs = [
             ['steen', 'schaar'],
             ['papier', 'steen'],
             ['schaar', 'papier']
         ];
-        
+
         foreach ($winningPairs as [$winner, $loser]) {
             if ($player === $winner && $computer === $loser) return 'gewonnen';
             if ($player === $loser && $computer === $winner) return 'verloren';
@@ -49,3 +63,4 @@ class Rock_paper_scissors extends Game {
         return 'gelijkspel';
     }
 }
+?>
