@@ -60,6 +60,7 @@ button:hover, .button:hover {
 /* header */
 header {
     width: 80%;
+    /* height: 10rem; */
     display: flex;
     justify-content: space-between;
     margin-top: 2vh;
@@ -89,7 +90,6 @@ header {
     color: var(--Dark_Text);
     font-weight: 700;
     font-size: xx-large;
-    text-align: center;
 }
 
 /* footer */
@@ -110,6 +110,10 @@ main {
 /* universele_classes */
 .unavailable {
     display: none !important;
+}
+
+.t_center {
+    text-align: center;
 }
 
 .game_container {

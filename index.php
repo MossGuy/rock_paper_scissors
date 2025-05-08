@@ -49,19 +49,13 @@ if ($game_available) {
             $player_choice = $_SESSION['player_choice'] ?? null;
             $game_finished = $_SESSION['game_finished'] ?? false;
 
-            $result = $_SESSION['round_result']['result'];
-    
+            $result = $_SESSION['round_result']['result']??'';
+            
+            // game specifieke variabelen (hard coded)
+            $player_result = $_SESSION['round_result']['player']??'';
+            $cpu_result = $_SESSION['round_result']['computer']??'';
             break;
     }
-}
-
-if (isset($_POST['reset'])) {
-    unset($_SESSION['player_choice']);
-    unset($_SESSION['game_finished']);
-    unset($_SESSION['round_result']);
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
 }
 
 ?>
@@ -86,12 +80,14 @@ if (isset($_POST['reset'])) {
     <?php include "./web_elements/header.php"; ?>
 
     <main class="game_container">
+        <!-- Game beginnen -->
         <section class="game_window <?= (!$game_available || $game_finished) ? 'unavailable' : '' ?>">
                 <h1>Speel een spel</h1>
                 <br>
         
                 <form action="" method="post">
                 <?php
+                // game specifieke functie (hard coded)
                 foreach ($game->return_options() as $option) {
                     echo "<input class='button' type='submit' name='player_choice', id='player_choice' value='$option'>";
                 }
@@ -99,21 +95,23 @@ if (isset($_POST['reset'])) {
                 </form>
         </section>
 
+        <!-- Game afronden -->
         <section class="<?=!$game_finished ? 'unavailable' : '' ?>">
             <h2 class="<?=$result?>"><?=$result?></h2>
-            
             <br>
+
+            <div>
+                <p><?=$player->getName() . ": " .  $player_result?></p>
+                <p>CPU: <?=$cpu_result?></p>
+            </div>
+            <br>
+
             <form action="" method="post">
                 <input class="button" type="submit" name="reset" id="reset" value="Nog een keer">
             </form>
-
-            <br>
-            <p><?php //$game->play($_POST['player_choice']);?></p>
-            <p><?php ;?></p>
-            <br>
-            <p><?php print_r($player);?></p>
         </section>
 
+        <!-- Game niet gevonden -->
         <section class="<?=$game_available ? 'unavailable' : '' ?>">
             <h2>De game is niet gevonden of word niet ondersteund</h2>
         </section>

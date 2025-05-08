@@ -8,10 +8,13 @@ $score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScor
         <h2><?=$title?></h2>
     </section>
 
-    <section class="score_window <?= !$game_available ? 'unavailable' : '' ?>">
-        <p>score</p>
-        <!-- score ophalen -->
-        <p id="score"><?=$score?></p>
+    <section class=" t_center <?= !$game_available ? 'unavailable' : '' ?>">
+        <div class="score_window">
+            <p><?=$player->getName()?></p>
+            <p>score</p>
+            <!-- score ophalen -->
+            <p id="score"><?=$score?></p>
+        </div>
     </section>
 
     <section class="<?= $game_available ? 'unavailable' : '' ?>">
