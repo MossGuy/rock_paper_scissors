@@ -10,7 +10,7 @@ class Rock_paper_scissors extends Game {
 
     // constructor
     public function __construct(Player $player) {
-        parent::__construct("Steen Papier Schaar", $player);
+        parent::__construct("rock_paper_scissors", "Steen <br> Papier <br> Schaar", $player);
     }
 
     // getters
@@ -36,14 +36,16 @@ class Rock_paper_scissors extends Game {
     }
 
     private function determineWinner(string $player, string $computer): string {
-        if ($player === $computer) return 'gelijkspel';
-
-        $winningCombos = [
-            'steen' => 'schaar',
-            'papier' => 'steen',
-            'schaar' => 'papier'
+        $winningPairs = [
+            ['steen', 'schaar'],
+            ['papier', 'steen'],
+            ['schaar', 'papier']
         ];
-
-        return ($winningCombos[$player] === $computer) ? 'gewonnen' : 'verloren';
+        
+        foreach ($winningPairs as [$winner, $loser]) {
+            if ($player === $winner && $computer === $loser) return 'gewonnen';
+            if ($player === $loser && $computer === $winner) return 'verloren';
+        }
+        return 'gelijkspel';
     }
 }

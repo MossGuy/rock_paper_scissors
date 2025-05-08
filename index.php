@@ -25,7 +25,41 @@ if ($game_available) {
     $player = unserialize($_SESSION['player']);
 
     // Init game
-    $game = new Rock_paper_scissors($player);
+    switch($active_game) {
+        case 'rock_paper_scissors':
+            $game = new Rock_paper_scissors($player);
+
+            if (isset($_SESSION['game_finished']) && !isset($_SESSION['round_result'])) {
+                // Speel de ronde slechts één keer
+                $_SESSION['round_result'] = $game->play($_SESSION['player_choice']);
+            
+                // Update de player in sessie met nieuwe score
+                $_SESSION['player'] = serialize($player);
+            }
+    
+            if (isset($_POST['player_choice'])) {
+                $_SESSION['player_choice'] = $_POST['player_choice'];
+                $_SESSION['game_finished'] = true;
+    
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit;
+            }
+    
+            // Huidige spelstatus uit sessie ophalen
+            $player_choice = $_SESSION['player_choice'] ?? null;
+            $game_finished = $_SESSION['game_finished'] ?? false;
+    
+            break;
+    }
+}
+
+if (isset($_POST['reset'])) {
+    unset($_SESSION['player_choice']);
+    unset($_SESSION['game_finished']);
+    unset($_SESSION['round_result']);
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }
 
 ?>
@@ -50,19 +84,32 @@ if ($game_available) {
     <?php include "./web_elements/header.php"; ?>
 
     <main class="game_container">
-        <section class="game_title <?= !$game_available ? 'unavailable' : '' ?>">
-            <h1>Speel een spel</h1>
-            <br>
-        </section>
-
-        <section class="game_window <?= !$game_available ? 'unavailable' : '' ?>">
-                <form action="./game_result.php" method="post">
+        <section class="game_window <?= (!$game_available || $game_finished) ? 'unavailable' : '' ?>">
+                <h1>Speel een spel</h1>
+                <br>
+        
+                <form action="" method="post">
                 <?php
                 foreach ($game->return_options() as $option) {
                     echo "<input class='button' type='submit' name='player_choice', id='player_choice' value='$option'>";
                 }
                 ?>
                 </form>
+        </section>
+
+        <section class="<?=!$game_finished ? 'unavailable' : '' ?>">
+            <h2>De game is afgelopen</h2>
+            
+            <br>
+            <form action="" method="post">
+                <input class="button" type="submit" name="reset" id="reset" value="Nog een keer">
+            </form>
+
+            <br>
+            <p><?php //$game->play($_POST['player_choice']);?></p>
+            <p><?php print_r($game->play($_SESSION['player_choice']));?></p>
+            <br>
+            <p><?php print_r($player);?></p>
         </section>
 
         <section class="<?=$game_available ? 'unavailable' : '' ?>">

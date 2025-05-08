@@ -6,17 +6,22 @@ use core\Player;
 abstract class Game {
     // propperties
     protected string $title;
+    protected string $displayTitle;
     protected Player $player;
 
     //constructor
-    public function __construct(string $title, Player $player) {
+    public function __construct(string $title, string $display_title, Player $player) {
         $this->title = $title;
+        $this->displayTitle = $display_title;
         $this->player = $player;
     }
 
     // getters
-    public function getTitle(): string {
+    public function getTitle() {
         return $this->title;
+    }
+    public function getDisplayTitle(): string {
+        return $this->displayTitle;
     }
 
     public function getPlayerScore(): int {
