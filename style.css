@@ -89,6 +89,7 @@ header {
     color: var(--Dark_Text);
     font-weight: 700;
     font-size: xx-large;
+    text-align: center;
 }
 
 /* footer */
