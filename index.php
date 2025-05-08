@@ -48,6 +48,8 @@ if ($game_available) {
             // Huidige spelstatus uit sessie ophalen
             $player_choice = $_SESSION['player_choice'] ?? null;
             $game_finished = $_SESSION['game_finished'] ?? false;
+
+            $result = $_SESSION['round_result']['result'];
     
             break;
     }
@@ -98,7 +100,7 @@ if (isset($_POST['reset'])) {
         </section>
 
         <section class="<?=!$game_finished ? 'unavailable' : '' ?>">
-            <h2>De game is afgelopen</h2>
+            <h2 class="<?=$result?>"><?=$result?></h2>
             
             <br>
             <form action="" method="post">
@@ -107,7 +109,7 @@ if (isset($_POST['reset'])) {
 
             <br>
             <p><?php //$game->play($_POST['player_choice']);?></p>
-            <p><?php print_r($game->play($_SESSION['player_choice']));?></p>
+            <p><?php ;?></p>
             <br>
             <p><?php print_r($player);?></p>
         </section>

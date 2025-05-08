@@ -120,3 +120,15 @@ main {
     justify-content: center;
     align-items: center;
 }
+
+.gewonnen {
+    color: green;
+}
+
+.verloren {
+    color: red;
+}
+
+.gelijkspel {
+    color: orange;
+}
