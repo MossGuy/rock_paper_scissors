@@ -1,7 +1,10 @@
 <?php
-$title = (isset($game) && method_exists($game, 'getDisplayTitle')) ? $game->getDisplayTitle() : 'Game niet gevonden :(';
-$score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScore($game->getTitle()) : '0';
+$title = 'Welkom'; // Default titel
+
+$title = ((isset($player) && method_exists($player, 'getName')) ? htmlspecialchars($player->getName()) : '');
+$score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScore($game->getTitle()) : '';
 ?>
+
 <header>
     <section>
         <h2><?=$title?></h2>
@@ -9,8 +12,8 @@ $score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScor
 
     <section class=" t_center <?= !$game_available ? 'unavailable' : '' ?>">
         <div class="score_window">
-            <p><?=$player->getName()?></p>
-            <p>score</p>
+            <p><?=$player_name??''?></p>
+            <p><?= isset($player) ? 'score' : '' ?></p>
             <p id="score"><?=$score?></p>
         </div>
     </section>

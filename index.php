@@ -17,15 +17,22 @@ use games\rock_paper_scissors\Rock_paper_scissors;
 $active_game = 'rock_paper_scissors';
 $game_available = game_check($active_game);
 
- // TODO: gebruiker vragen om player name
 // Speler initialiseren
 if (!isset($_SESSION['player'])) {
-    $_SESSION['player'] = serialize(new Player("Speler 1"));
+    // Formulier om speler naam in te voeren
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['player_name'])) {
+        $_SESSION['player'] = serialize(new Player($_POST['player_name']));
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
+} else {
+    $player = unserialize($_SESSION['player']);
 }
-$player = unserialize($_SESSION['player']);
 
+  // TODO: wanneer lizzard spock word gemaakt, kijken of code hergebruikt kan worden
+ // En code eventueel uit de switch halen.
 // Game initialiseren
-if ($game_available) {
+if ($game_available && isset($_SESSION['player'])) {
     switch($active_game) {
         case 'rock_paper_scissors':
             // Maak een nieuwe instance van Rock_paper_scissors
@@ -78,17 +85,31 @@ if ($game_available) {
 </head>
 <body>
     <?php include "./web_elements/header.php"; ?>
-
     <main class="game_container">
+        
+        <!-- Speler naam invoeren -->
+        <?php if (!isset($_SESSION['player'])): ?>
+            <section class="player_name_section">
+                <form action="" method="post">
+                    <h2>Wat is je naam?</h2>
+                    <input class="textbox" type="text" id="player_name" name="player_name" required>
+                    <!-- TODO: select element voor spelmodus wanneer lizard spock klaar is -->
+                    <input class="button" type="submit" value="Start het spel">
+                </form>
+            </section>
+        <?php endif; ?>
+        
         <!-- Game beginnen -->
         <section class="game_window <?= (!$game_available || $game_finished) ? 'unavailable' : '' ?>">
-            <form action="" method="post">
-                <?php if ($game_available && !$game_finished): ?>
-                    <?php foreach ($game->getOptions() as $option): ?>
-                        <?= $game->renderOptionInput($option) ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </form>
+            <?php if (isset($_SESSION['player'])): ?>
+                <form action="" method="post">
+                    <?php if ($game_available && !$game_finished): ?>
+                        <?php foreach ($game->getOptions() as $option): ?>
+                            <?= $game->renderOptionInput($option) ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </form>
+            <?php endif; ?>
         </section>
 
         <!-- Game afronden -->
