@@ -82,28 +82,30 @@ if ($game_available) {
     <main class="game_container">
         <!-- Game beginnen -->
         <section class="game_window <?= (!$game_available || $game_finished) ? 'unavailable' : '' ?>">
-        <h1>Speel een spel</h1>
-        <br>
-
-        <!-- Formulier voor keuze input -->
-        <form action="" method="post">
-        <?php if ($game_available && !$game_finished): ?>
-            <?php foreach ($game->getOptions() as $option): ?>
-                <?= $game->renderOptionInput($option) ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-
-        </form>
-    </section>
+            <form action="" method="post">
+                <?php if ($game_available && !$game_finished): ?>
+                    <?php foreach ($game->getOptions() as $option): ?>
+                        <?= $game->renderOptionInput($option) ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </form>
+        </section>
 
         <!-- Game afronden -->
         <section class="<?=!$game_finished ? 'unavailable' : '' ?>">
             <h2 class="<?=$result?>"><?=$result?></h2>
             <br>
 
-            <div>
-                <p><?=$player->getName() . ": " .  $player_result?></p>
-                <p>CPU: <?=$cpu_result?></p>
+            <div class="result_window">
+                <div>
+                    <p><?=$player->getName()?>:</p>
+                    <?=$game->renderFigure($player_result)?>
+                </div>
+                <br>
+                <div>
+                    <p>CPU:</p>
+                    <?=$game->renderFigure($cpu_result)?>
+                </div>
             </div>
             <br>
 

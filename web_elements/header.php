@@ -4,7 +4,6 @@ $score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScor
 ?>
 <header>
     <section>
-        <!-- TODO: fout afhandeling wanneer de variabel niet gelezen kan worden -->
         <h2><?=$title?></h2>
     </section>
 
@@ -12,7 +11,6 @@ $score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScor
         <div class="score_window">
             <p><?=$player->getName()?></p>
             <p>score</p>
-            <!-- score ophalen -->
             <p id="score"><?=$score?></p>
         </div>
     </section>
