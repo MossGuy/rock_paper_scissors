@@ -1,10 +1,8 @@
 <?php
 $title = 'Welkom'; // Default titel
 
-$title = ((isset($player) && method_exists($player, 'getName')) ? htmlspecialchars($player->getName()) : '');
+$title = ((isset($player) && method_exists($game, 'getDisplayTitle')) ? $game->getDisplayTitle() : '');
 $score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScore($game->getTitle()) : '';
-
-// TODO: wanneer title beschikbaar is moet de title de naam van de game zijn, niet de player naam smh
 ?>
 
 <header>
