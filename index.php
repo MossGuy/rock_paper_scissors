@@ -1,69 +1,30 @@
 <?php
 session_start();
 
- // TODO: maak de php code in de head schoner / netter door het een en ander te verplaatsen
-// naar de functions.php
-
 require_once './classes/core/game.php';
 require_once './classes/core/player.php';
+require_once './classes/core/gameHandler.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors.php';
+require_once './php_functions.php/php_functions.php';
 
-include_once "./php_functions.php/php_functions.php";
+use core\GameHandler;
 
-use core\Player;
-use games\rock_paper_scissors\Rock_paper_scissors;
-
-//TODO:  wanneer er meer games zijn kan deze aanroep vanuit de session worden gedaan
-$active_game = 'rock_paper_scissors';
+$player = return_player();
+$active_game = 'rock_paper_scissors'; // TODO: vanuit sessie wanneer lizard spock klaar is
 $game_available = game_check($active_game);
 
-// Speler initialiseren
-if (!isset($_SESSION['player'])) {
-    // Formulier om speler naam in te voeren
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['player_name'])) {
-        $_SESSION['player'] = serialize(new Player($_POST['player_name']));
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
-    }
-} else {
-    $player = unserialize($_SESSION['player']);
+// === GAME AANROEP VIA GAMEHANDLER ===
+$game_data = [];
+if ($game_available && $player) {
+    $game_data = GameHandler::run($player, $active_game);
 }
 
-  // TODO: wanneer lizzard spock word gemaakt, kijken of code hergebruikt kan worden
- // En code eventueel uit de switch halen.
-// Game initialiseren
-if ($game_available && isset($_SESSION['player'])) {
-    switch($active_game) {
-        case 'rock_paper_scissors':
-            // Maak een nieuwe instance van Rock_paper_scissors
-            $game = new Rock_paper_scissors($player);
-
-            // Als de game afgerond is, verwerk de score
-            if (isset($_SESSION['game_finished']) && !isset($_SESSION['round_result'])) {
-                $_SESSION['round_result'] = $game->play($_SESSION['player_choice']);
-                $_SESSION['player'] = serialize($player); // Update score van de speler
-            }
-
-            // Als er een keuze gemaakt is, verwerk die keuze
-            if (isset($_POST['player_choice'])) {
-                $_SESSION['player_choice'] = $_POST['player_choice'];
-                $_SESSION['game_finished'] = true;
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit;
-            }
-
-            // Game status ophalen
-            $player_choice = $_SESSION['player_choice'] ?? null;
-            $game_finished = $_SESSION['game_finished'] ?? false;
-            $result_data = $_SESSION['round_result'] ?? [];
-
-            $result = $result_data['result'] ?? '';
-            $player_result = $result_data['player'] ?? '';
-            $cpu_result = $result_data['computer'] ?? '';
-            break;
-    }
-}
-
+// === VARIABELEN VOOR HTML OUTPUT ===
+$game = $game_data['game'] ?? null;
+$game_finished = $game_data['game_finished'] ?? false;
+$result = $game_data['result'] ?? '';
+$player_result = $game_data['player_result'] ?? '';
+$cpu_result = $game_data['cpu_result'] ?? '';
 
 ?>
 <!DOCTYPE html>
@@ -86,9 +47,9 @@ if ($game_available && isset($_SESSION['player'])) {
 <body>
     <?php include "./web_elements/header.php"; ?>
     <main class="game_container">
-        
+
         <!-- Speler naam invoeren -->
-        <?php if (!isset($_SESSION['player'])): ?>
+        <?php if (!$player): ?>
             <section class="player_name_section">
                 <form action="" method="post">
                     <h2>Wat is je naam?</h2>
@@ -98,49 +59,50 @@ if ($game_available && isset($_SESSION['player'])) {
                 </form>
             </section>
         <?php endif; ?>
-        
+
         <!-- Game beginnen -->
-        <section class="game_window <?= (!$game_available || $game_finished) ? 'unavailable' : '' ?>">
-            <?php if (isset($_SESSION['player'])): ?>
+        <?php if ($game && !$game_finished): ?>
+            <section class="game_window">
                 <form action="" method="post">
-                    <?php if ($game_available && !$game_finished): ?>
-                        <?php foreach ($game->getOptions() as $option): ?>
-                            <?= $game->renderOptionInput($option) ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <?php foreach ($game->getOptions() as $option): ?>
+                        <?= $game->renderOptionInput($option) ?>
+                    <?php endforeach; ?>
                 </form>
-            <?php endif; ?>
-        </section>
+            </section>
+        <?php endif; ?>
 
         <!-- Game afronden -->
-        <section class="<?=!$game_finished ? 'unavailable' : '' ?>">
-            <h2 class="<?=$result?>"><?=$result?></h2>
-            <br>
+        <?php if ($game && $game_finished): ?>
+            <section>
+                <h2 class="<?= htmlspecialchars($result) ?>"><?= htmlspecialchars($result) ?></h2>
+                <br>
 
-            <div class="result_window">
-                <div>
-                    <p><?=$player->getName()?>:</p>
-                    <?=$game->renderFigure($player_result)?>
+                <div class="result_window">
+                    <div>
+                        <p><?= htmlspecialchars($player->getName()) ?>:</p>
+                        <?= $game->renderFigure($player_result) ?>
+                    </div>
+                    <br>
+                    <div>
+                        <p>CPU:</p>
+                        <?= $game->renderFigure($cpu_result) ?>
+                    </div>
                 </div>
                 <br>
-                <div>
-                    <p>CPU:</p>
-                    <?=$game->renderFigure($cpu_result)?>
-                </div>
-            </div>
-            <br>
 
-            <form action="" method="post">
-                <input class="button" type="submit" name="reset" id="reset" value="Nog een keer">
-            </form>
-        </section>
+                <form action="" method="post">
+                    <input class="button" type="submit" name="reset" id="reset" value="Nog een keer">
+                </form>
+            </section>
+        <?php endif; ?>
 
         <!-- Game niet gevonden -->
-        <section class="<?=$game_available ? 'unavailable' : '' ?>">
-            <h2>De game is niet gevonden of word niet ondersteund</h2>
-        </section>
+        <?php if (!$game_available): ?>
+            <section>
+                <h2>De game is niet gevonden of wordt niet ondersteund</h2>
+            </section>
+        <?php endif; ?>
     </main>
-
     <?php include "./web_elements/footer.php"; ?>
 </body>
 </html>
