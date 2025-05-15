@@ -14,3 +14,5 @@ TODO:
 * lizzard spock game versie uitwerken en logica uitbreiden zodat gebruiken kan switchen van game en eventueel playernaam
 
 * optioneel: buttons maken zoals het originele design
+
+* laatste toevoeging: database connectie met spelers en score
