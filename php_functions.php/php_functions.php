@@ -15,7 +15,7 @@ function return_player(): ?Player {
     return unserialize($_SESSION['player']);
 }
 
-define("SUPPORTED_GAMES", ["rock_paper_scissors"]);
+define("SUPPORTED_GAMES", ["rock_paper_scissors", "rock_paper_scissors_lizard_spock"]);
 function game_check(string $game): bool {
     return in_array($game, SUPPORTED_GAMES);
 }

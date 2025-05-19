@@ -8,6 +8,7 @@ Namespaces:
 └── games
     └── rock_paper_scissors
         └── Rock_paper_scissors
+        └── Rock_paper_scissors_lizard_spock
 
 TODO:
 * regels pop-up maken + werkend maken met javascript
@@ -16,3 +17,8 @@ TODO:
 * optioneel: buttons maken zoals het originele design
 
 * laatste toevoeging: database connectie met spelers en score
+
+Bestanden in de repository met TODO items (hoge prioriteit):
+* index.php
+* GameHandler.php
+* Rock_paper_scissors_lizard_spock.php

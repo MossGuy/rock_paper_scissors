@@ -46,6 +46,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
 </head>
 <body>
     <?php include "./web_elements/header.php"; ?>
+    <p>Active game vanuit de variabel: <?=$active_game?></p>
     <main class="game_container">
 
         <!-- Speler naam invoeren -->
