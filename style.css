@@ -159,6 +159,10 @@ main {
     font-size: large;
     margin: 0 0.5rem;
     width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .game_window button, .icon_figure {
