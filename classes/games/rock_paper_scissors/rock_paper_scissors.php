@@ -44,7 +44,15 @@ class Rock_paper_scissors extends Game {
 
     public function play(string $playerChoice): array {
         $computerChoice = $this->options[array_rand($this->options)];
-        $result = $this->determineWinner($playerChoice, $computerChoice);
+
+        // Dynamisch de winnende paren doorgeven aan determineWinner
+        $winningPairs = [
+            ['steen', 'schaar'],
+            ['papier', 'steen'],
+            ['schaar', 'papier']
+        ];
+
+        $result = $this->determineWinner($playerChoice, $computerChoice, $winningPairs);
 
         if ($result === "gewonnen") {
             $this->player->addWin($this->title);
@@ -58,19 +66,20 @@ class Rock_paper_scissors extends Game {
         ];
     }
 
-    // Bereken en return winnaar als string
-    private function determineWinner(string $player, string $computer): string {
-        $winningPairs = [
-            ['steen', 'schaar'],
-            ['papier', 'steen'],
-            ['schaar', 'papier']
-        ];
 
+    // Bereken en return winnaar als string
+    protected function determineWinner(string $player, string $computer, array $winningPairs): string {
+        $winningMap = [];
         foreach ($winningPairs as [$winner, $loser]) {
-            if ($player === $winner && $computer === $loser) return 'gewonnen';
-            if ($player === $loser && $computer === $winner) return 'verloren';
+            $winningMap[$winner] = $loser;
+        } 
+        if (isset($winningMap[$player]) && $winningMap[$player] === $computer) {
+            return 'gewonnen';
+        }
+        if (isset($winningMap[$computer]) && $winningMap[$computer] === $player) {
+            return 'verloren';
         }
         return 'gelijkspel';
-    }
+    }    
 }
 ?>

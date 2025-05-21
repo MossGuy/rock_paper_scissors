@@ -12,26 +12,35 @@ class Rock_paper_scissors_lizard_spock extends Rock_paper_scissors {
         parent::__construct($player, 'rock_paper_scissors_lizard_spock', 'Steen <br> Papier <br> Schaar <br> Hagedis <br> Spock', $this->options);
     }
     
+    public function play(string $playerChoice): array {
+        $computerChoice = $this->options[array_rand($this->options)];
 
-    private function determineWinner(string $player, string $computer): string {
+        // Nieuwe array met winnende paren voor deze variant
         $winningPairs = [
-            ['schaar', 'papier'],
+            ['steen', 'schaar'],
             ['papier', 'steen'],
+            ['schaar', 'papier'],
             ['steen', 'hagedis'],
-            ['hagedis', 'spock'],
-            ['spock', 'schaar'],
-            ['schaar', 'hagedis'],
             ['hagedis', 'papier'],
             ['papier', 'spock'],
-            ['spock', 'steen'],
-            ['steen', 'schaar']
+            ['spock', 'schaar'],
+            ['schaar', 'hagedis'],
+            ['hagedis', 'spock'],
+            ['spock', 'steen']
         ];
 
-        foreach ($winningPairs as [$winner, $loser]) {
-            if ($player === $winner && $computer === $loser) return 'gewonnen';
-            if ($player === $loser && $computer === $winner) return 'verloren';
+        $result = $this->determineWinner($playerChoice, $computerChoice, $winningPairs);
+
+        if ($result === "gewonnen") {
+            $this->player->addWin($this->title);
         }
-        return 'gelijkspel';
+
+        return [
+            'player' => $playerChoice,
+            'computer' => $computerChoice,
+            'result' => $result,
+            'score' => $this->player->getScore($this->title)
+        ];
     }
 }
 ?>
