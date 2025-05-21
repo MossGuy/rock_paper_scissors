@@ -21,5 +21,3 @@ TODO:
 
 Bestanden in de repository met TODO items (hoge prioriteit):
 * index.php
-* GameHandler.php
-* Rock_paper_scissors_lizard_spock.php
