@@ -69,17 +69,15 @@ class Rock_paper_scissors extends Game {
 
     // Bereken en return winnaar als string
     protected function determineWinner(string $player, string $computer, array $winningPairs): string {
-        $winningMap = [];
-        foreach ($winningPairs as [$winner, $loser]) {
-            $winningMap[$winner] = $loser;
-        } 
-        if (isset($winningMap[$player]) && $winningMap[$player] === $computer) {
-            return 'gewonnen';
+        if ($player === $computer) {
+            return 'gelijkspel';
         }
-        if (isset($winningMap[$computer]) && $winningMap[$computer] === $player) {
-            return 'verloren';
+        foreach ($winningPairs as $pair) {
+            if ($pair[0] === $player && $pair[1] === $computer) {
+                return 'gewonnen';
+            }
         }
-        return 'gelijkspel';
-    }    
+        return 'verloren';
+    }
 }
 ?>
