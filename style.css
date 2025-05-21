@@ -161,6 +161,17 @@ main {
     width: fit-content;
 }
 
+.game_window button, .icon_figure {
+    height: 170px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+
+.game_window form {
+    display: flex;
+    justify-content: center;
+}
+
 .gewonnen {
     color: green;
 }
