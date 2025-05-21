@@ -26,4 +26,12 @@ if (isset($_POST['reset'])) {
     exit;
 }
 
+// de speler verwijderen uit de lokale session
+if (isset($_POST['exit'])) {
+    echo "exit button is geregistreerd";
+    unset($_SESSION['player']);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
 ?>

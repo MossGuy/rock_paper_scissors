@@ -47,7 +47,7 @@ h1 {
     font-size: 40px;
 }
 
-button, .button {
+button, .button, select {
     padding: 0.5rem;
     background: unset;
     color: #fff;
@@ -100,6 +100,8 @@ header {
 
 /* footer */
 footer {
+    display: flex;
+    justify-content: flex-end;
     width: 100%;
     position: absolute;
     bottom: 0;

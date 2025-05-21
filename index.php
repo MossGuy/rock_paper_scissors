@@ -47,7 +47,6 @@ $cpu_result = $game_data['cpu_result'] ?? '';
 </head>
 <body>
     <?php include "./web_elements/header.php"; ?>
-    <!-- <p>Active game vanuit de variabel: <?=$active_game?></p> -->
     <main class="game_container">
 
         <!-- Speler naam invoeren -->
@@ -57,6 +56,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                     <h2>Wat is je naam?</h2>
                     <input class="textbox" type="text" id="player_name" name="player_name" required>
                     <!-- TODO: select element voor spelmodus wanneer lizard spock klaar is -->
+                    <!-- TODO: onderzoek achtergrondkleur van option element -->
                     <input class="button" type="submit" value="Start het spel">
                 </form>
             </section>

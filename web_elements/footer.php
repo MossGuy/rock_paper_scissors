@@ -1,4 +1,7 @@
 <footer>
+    <form action="" method="post">
+        <input class="button" type="submit" name="exit" id="exit" value="exit">
+    </form>
     <button>regels</button>
 
     <section>
