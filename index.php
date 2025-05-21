@@ -5,12 +5,13 @@ require_once './classes/core/game.php';
 require_once './classes/core/player.php';
 require_once './classes/core/gameHandler.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors.php';
+require_once './classes/games/rock_paper_scissors/rock_paper_scissors_lizard_spock.php';
 require_once './php_functions.php/php_functions.php';
 
 use core\GameHandler;
 
 $player = return_player();
-$active_game = 'rock_paper_scissors'; // TODO: vanuit sessie wanneer lizard spock klaar is
+$active_game = 'rock_paper_scissors_lizard_spock'; // TODO: vanuit sessie wanneer lizard spock klaar is
 $game_available = game_check($active_game);
 
 // === GAME AANROEP VIA GAMEHANDLER ===
@@ -46,7 +47,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
 </head>
 <body>
     <?php include "./web_elements/header.php"; ?>
-    <p>Active game vanuit de variabel: <?=$active_game?></p>
+    <!-- <p>Active game vanuit de variabel: <?=$active_game?></p> -->
     <main class="game_container">
 
         <!-- Speler naam invoeren -->

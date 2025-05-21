@@ -3,18 +3,14 @@ namespace games\rock_paper_scissors;
 
 use core\Game;
 use core\Player;
+use games\rock_paper_scissors\Rock_paper_scissors;
 
 class Rock_paper_scissors_lizard_spock extends Rock_paper_scissors {
-    private array $options = ['steen', 'papier', 'schaar', 'lizard', 'spock'];
+    protected array $options = ['steen', 'papier', 'schaar', 'hagedis', 'spock'];
 
-    // TODO: constructor fixen (originele constructor heeft hard-coded waarden die eruit moeten)
-    // public function __construct(Player $player) {
-    //     parent::__construct(
-    //         "rock_paper_scissors_lizard_spock",   // Spelnaam
-    //         "Steen <br> Papier <br> Schaar <br> Hagedis <br> Spock", // Keuzes
-    //         $player   // Player object
-    //     );
-    // }
+    public function __construct(Player $player) {
+        parent::__construct($player, 'rock_paper_scissors_lizard_spock', 'Steen <br> Papier <br> Schaar <br> Hagedis <br> Spock', $this->options);
+    }
     
 
     private function determineWinner(string $player, string $computer): string {

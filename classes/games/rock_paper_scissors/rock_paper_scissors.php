@@ -9,8 +9,9 @@ class Rock_paper_scissors extends Game {
     private array $options = ['steen', 'papier', 'schaar'];
 
     // Constructor
-    public function __construct(Player $player) {
-        parent::__construct("rock_paper_scissors", "Steen <br> Papier <br> Schaar", $player);
+    public function __construct(Player $player, string $title = 'rock_paper_scissors', string $displayTitle = 'Steen <br> Papier <br> Schaar', array $options = ['steen', 'papier', 'schaar']) {
+        parent::__construct($title, $displayTitle, $player);
+        $this->options = $options;
     }
 
     // abstracte methode implementaties
