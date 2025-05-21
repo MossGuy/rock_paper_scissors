@@ -11,7 +11,7 @@ require_once './php_functions.php/php_functions.php';
 use core\GameHandler;
 
 $player = return_player();
-$active_game = 'rock_paper_scissors_lizard_spock'; // TODO: vanuit sessie wanneer lizard spock klaar is
+$active_game = 'rock_paper_scissors_lizard_spock'; // TODO: ophalen vanuit session
 $game_available = game_check($active_game);
 
 // === GAME AANROEP VIA GAMEHANDLER ===

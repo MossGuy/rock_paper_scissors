@@ -12,7 +12,7 @@ Namespaces:
 
 TODO:
 * regels pop-up maken + werkend maken met javascript
-* lizzard spock game versie uitwerken en logica uitbreiden zodat gebruiken kan switchen van game en eventueel playernaam
+* laat speler van game en spelernaam switchen
 
 * optioneel: buttons maken zoals het originele design
 * optioneel: titel vervangen met de svg icon
