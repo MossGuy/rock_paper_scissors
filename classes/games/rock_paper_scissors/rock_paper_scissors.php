@@ -20,15 +20,17 @@ class Rock_paper_scissors extends Game {
     }
 
     public function renderOptionInput(string $option): string {
+        $title = $this->getTitle();
         return "<button type='submit' name='player_choice' value='$option'>
-                    <img src='./images/svg_icons/rock_paper_scissors/$option.svg' alt='$option' />
+                    <img src='./images/svg_icons/$title/$option.svg' alt='$option' />
                     <p>$option</p>
                 </button>";
     }
 
     public function renderFigure(string $option): string {
+        $title = $this->getTitle();
         return "<figure class='icon_figure'>
-                    <img src='./images/svg_icons/rock_paper_scissors/$option.svg' alt='$option' />
+                    <img src='./images/svg_icons/$title/$option.svg' alt='$option' />
                     <figcaption>$option</figcaption>
                 </figure>";
     }

@@ -83,7 +83,8 @@ header {
     height: 100%;
     /* aspect-ratio: 1/1; */
     padding: 1.5rem;
-    width: fit-content;
+    /* width: fit-content; */
+    width: 170px;
 
 }
 
