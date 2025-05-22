@@ -8,6 +8,7 @@ function game_check(string $game): bool {
 }
 
 function return_game_session() {
+    // $_POST variabel uitlezen en waarden opslaan in de $_SESSION
     if (isset($_POST['go'])) {
         $game_mode = $_POST['game_mode'] ?? null;
         $player_name = $_POST['player_name'] ?? null;
@@ -29,6 +30,7 @@ function return_game_session() {
         exit;
     }
 
+    // $_SESSION['game'] uitlezen en waarden returnen
     if (isset($_SESSION['game'])) {
         $game_mode = $_SESSION['game']['game_mode'];
         $player = unserialize($_SESSION['game']['player']);
@@ -41,11 +43,11 @@ function return_game_session() {
         ];
     }
 
+    // wanneer geen actie mogelijk is
     return ['game_playable' => false];
 }
 
 if (isset($_POST['change'])) {
-    // Controleer of er al een game sessie is
     if (!$game_finished) {
         $current_mode = $_SESSION['game']['game_mode'];
         $_SESSION['game']['game_mode'] = ($current_mode === 'rock_paper_scissors') 
