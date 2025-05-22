@@ -34,6 +34,7 @@ TODO:
     * gebruiker moet offline kunnen spelen als de database niet verbonden is:
       * de vooruitgang en playernaam worden dan niet opgeslagen
       * de database kan alleen verbonden worden wanneer er geen lokale game is
+      * de speler word niet verwijderd wanneer hij van game veranderd (knop in de footer is tijdelijk)
 
 
 
