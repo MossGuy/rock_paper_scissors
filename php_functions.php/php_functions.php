@@ -44,6 +44,17 @@ function return_game_session() {
     return ['game_playable' => false];
 }
 
+if (isset($_POST['change'])) {
+    // Controleer of er al een game sessie is
+    if (!$game_finished) {
+        $current_mode = $_SESSION['game']['game_mode'];
+        $_SESSION['game']['game_mode'] = ($current_mode === 'rock_paper_scissors') 
+    ? 'rock_paper_scissors_lizard_spock' 
+    : 'rock_paper_scissors';
+    }
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
 
 
 if (isset($_POST['reset'])) {

@@ -14,7 +14,7 @@ class GameHandler {
 
             // Resultaat genereren
             $_SESSION['round_result'] = $game->play($_POST['player_choice']);
-            $_SESSION['player'] = serialize($player);
+            $_SESSION['game']['player'] = serialize($player);
 
             // Redirect naar dezelfde pagina
             header("Location: " . $_SERVER['PHP_SELF']);
