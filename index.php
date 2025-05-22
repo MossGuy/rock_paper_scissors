@@ -10,23 +10,35 @@ require_once './php_functions.php/php_functions.php';
 
 use core\GameHandler;
 
-$player = return_player();
-$active_game = 'rock_paper_scissors_lizard_spock'; // TODO: ophalen vanuit session
-$game_available = game_check($active_game);
+// === Haal de game-sessie op ===
+$game_session = return_game_session(); // Haalt de game sessie op via de nieuwe functie
 
-// === GAME AANROEP VIA GAMEHANDLER ===
-$game_data = [];
-if ($game_available && $player) {
-    $game_data = GameHandler::run($player, $active_game);
+// Als de game niet speelbaar is, haal dan de foutmelding en andere informatie op
+if (!$game_session['game_playable']) {
+    $error_message = $game_session['error'] ?? null;
+    $case = $game_session['case'] ?? null;
 }
 
-// === VARIABELEN VOOR HTML OUTPUT ===
+// Haal de benodigde gegevens uit de game_session
+$game_mode = $game_session['game_mode'] ?? null;
+$player = $game_session['player'] ?? null;
+$case = $game_session['case'] ?? null;
+
+// === Game-aanspraak via GameHandler ===
+$game_data = [];
+if ($game_mode && $player) {
+    $game_available = game_check($game_mode);
+    if ($game_available) {
+        $game_data = GameHandler::run($player, $game_mode);
+    }
+}
+
+// === Variabelen voor HTML-output ===
 $game = $game_data['game'] ?? null;
 $game_finished = $game_data['game_finished'] ?? false;
 $result = $game_data['result'] ?? '';
 $player_result = $game_data['player_result'] ?? '';
 $cpu_result = $game_data['cpu_result'] ?? '';
-
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -48,16 +60,22 @@ $cpu_result = $game_data['cpu_result'] ?? '';
 <body>
     <?php include "./web_elements/header.php"; ?>
     <main class="game_container">
-
         <!-- Speler naam invoeren -->
         <?php if (!$player): ?>
             <section class="player_name_section">
-                <form action="" method="post">
-                    <h2>Wat is je naam?</h2>
-                    <input class="textbox" type="text" id="player_name" name="player_name" required>
-                    <!-- TODO: select element voor spelmodus wanneer lizard spock klaar is -->
-                    <!-- TODO: onderzoek achtergrondkleur van option element -->
-                    <input class="button" type="submit" value="Start het spel">
+                <form action="" method="post" class="welcome_form flex_column">
+                    <div>
+                        <h2>Spelmodus</h2>
+                        <select name="game_mode" id="game_mode">
+                            <option value="rock_paper_scissors">Steen Papier Schaar</option>
+                            <option value="rock_paper_scissors_lizard_spock">Steen Papier Schaar Hagedis Spock</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="flex_row">
+                        <input class="textbox" type="text" id="player_name" name="player_name" placeholder="Wat is je naam?" required>
+                        <input class="button" type="submit" name="go" value="Start het spel">
+                    </div>
                 </form>
             </section>
         <?php endif; ?>
@@ -95,13 +113,6 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                 <form action="" method="post">
                     <input class="button" type="submit" name="reset" id="reset" value="Nog een keer">
                 </form>
-            </section>
-        <?php endif; ?>
-
-        <!-- Game niet gevonden -->
-        <?php if (!$game_available): ?>
-            <section>
-                <h2>De game is niet gevonden of wordt niet ondersteund</h2>
             </section>
         <?php endif; ?>
     </main>

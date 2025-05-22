@@ -22,9 +22,11 @@ class Player {
 
     // setters
     public function addWin(string $gameTitle): void {
+        // TODO: score van speler updaten in de database
         if (!isset($this->scores[$gameTitle])) {
             $this->scores[$gameTitle] = 0;
         }
         $this->scores[$gameTitle]++;
     }
 }
+?>

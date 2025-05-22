@@ -120,6 +120,29 @@ main {
     justify-content: space-evenly;
 }
 
+/* welkom_formulier */
+.welcome_form {
+    width: 440px;
+    margin-right: auto;
+    margin-left: auto;
+
+    .button, select, input {
+        margin: 0;
+    }
+}
+
+.welcome_form select {
+    width: 100%;
+
+    option {
+        background-color: rgb(25, 37, 71);
+    }
+}
+
+#player_name {
+    margin-right: auto;
+}
+
 /* universele_classes */
 .unavailable {
     display: none !important;
@@ -137,6 +160,16 @@ main {
 
 .textbox:focus {
     background-color: var(--Dark_Text);
+}
+
+.flex_row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
 }
 
 .t_center {
