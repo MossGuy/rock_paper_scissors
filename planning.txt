@@ -40,4 +40,5 @@ TODO:
 
 Bestanden in de repository met TODO items (hoge prioriteit):
 * index.php
+* web_elements/footer.php
 * classes/core/player.php
