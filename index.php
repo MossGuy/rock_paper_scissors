@@ -4,14 +4,16 @@ session_start();
 require_once './classes/core/game.php';
 require_once './classes/core/player.php';
 require_once './classes/core/gameHandler.php';
+require_once './classes/core/DBConfig.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors_lizard_spock.php';
 require_once './php_functions.php/php_functions.php';
 
 use core\GameHandler;
+use core\DBConfig;
 
 // === Haal de game-sessie op ===
-$game_session = return_game_session(); // Haalt de game sessie op via de nieuwe functie
+$game_session = return_game_session();
 
 // Als de game niet speelbaar is, haal dan de foutmelding en andere informatie op
 if (!$game_session['game_playable']) {
@@ -26,10 +28,15 @@ $case = $game_session['case'] ?? null;
 
 // === Game-aanspraak via GameHandler ===
 $game_data = [];
+$handler = new GameHandler();
+$dbConfig = new DBConfig('127.0.0.1', 'db_games_milan', 'root', '');
+$handler->initDatabase($dbConfig);
+$db_online = $handler->db_connected;
+
 if ($game_mode && $player) {
     $game_available = game_check($game_mode);
     if ($game_available) {
-        $game_data = GameHandler::run($player, $game_mode);
+        $game_data = $handler->run($player, $game_mode);
     }
 }
 
