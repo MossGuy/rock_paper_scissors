@@ -44,10 +44,10 @@ function return_game_session() {
     return ['game_playable' => false];
 }
 
-function return_login_button($status) {
+function return_connect_button($status) {
     if (!$status) {
         // nieuwe poging database verbinden
-        return '<input class="button" type="submit" name="db_retry" id="db_retry" value="Verbind het database" formnovalidate>';
+        return '<form action="" method="post"><input class="button" type="submit" name="db_retry" id="db_retry" value="Verbind het database"></form>';
     } else {
          // TODO: kan eventueel vervangen worden door een disconnect button
         // bij de offline modus $_SESSION['DBMessage'] = "Verbinding handmatig verbroken"

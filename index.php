@@ -89,11 +89,13 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                 </form>
 
                 <!-- feedback database -->
+                 <?php if (!$db_online): ?>
                 <div class="db_feedback">
                     <p>Database <?=$db_online_string?></p>
                     <br>
-                    <?=return_login_button($db_online)?>
+                    <?=return_connect_button($db_online)?>
                 </div>
+                <?php endif; ?>
             </section>
         <?php endif; ?>
 
