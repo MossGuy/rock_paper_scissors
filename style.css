@@ -122,12 +122,18 @@ main {
 
 /* welkom_formulier */
 .welcome_form {
+    /* background-color: rgba(67, 151, 151, 0.4); */
     width: 440px;
     margin-right: auto;
     margin-left: auto;
 
     .button, select, input {
         margin: 0;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: auto;
     }
 }
 
@@ -170,6 +176,10 @@ main {
 .flex_column {
     display: flex;
     flex-direction: column;
+}
+
+.j_content_between {
+    justify-content: space-between;
 }
 
 .t_center {

@@ -41,18 +41,30 @@ class DBConfig {
             try {
                 $this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
             } catch (PDOException $e) {
-                throw new PDOException("Database connectie mislukt: " . $e->getMessage());
+                throw new PDOException($e->getMessage());
             }
         }
         return $this->pdo;
     }
 
     public function db_check(): bool {
+        // controlleer of er al een poging is gedaan
+        if (!isset($_SESSION['DBAttempt'])) {
+            $_SESSION['DBAttempt'] = true;
+        }
+        if (!$_SESSION['DBAttempt']) {
+            return false;
+        }
+
+        // database verbinden
         try {
             $conn = $this->getConnection();
             $conn->query('SELECT 1');
             return true;
         } catch (PDOException $e) {
+            $_SESSION['DBMessage'] = $e->getMessage();
+            $_SESSION['DBStatus'] = false;
+            $_SESSION['DBAttempt'] = false;
             return false;
         }
     }

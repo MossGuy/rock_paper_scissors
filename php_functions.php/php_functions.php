@@ -44,16 +44,14 @@ function return_game_session() {
     return ['game_playable' => false];
 }
 
-function return_login_button() {
-    if (!isset($_SESSION['DBStatus'])) {
+function return_login_button($status) {
+    if (!$status) {
         // nieuwe poging database verbinden
-        return "";
-    } else if (isset($_SESSION['loggedIn'])) {
-        // loguit button
-        return "";
+        return '<input class="button" type="submit" name="db_retry" id="db_retry" value="Verbind db" formnovalidate>';
     } else {
-        // login button
-        return "";
+        // kan eventueel vervangen worden door een disconnect button
+        return "<p>Database verbonden</p>";
+        // return "";
     }
 }
 
@@ -82,6 +80,11 @@ if (isset($_POST['exit'])) {
     unset($_SESSION['game']);
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
+}
+
+if (isset($_POST['db_retry'])) {
+    $_SESSION['DBAttempt'] = true;
+    header('Refresh:0');
 }
 
 ?>

@@ -1,6 +1,5 @@
 <footer>
     <form action="" method="post">
-        <?=return_login_button()?>
         <!-- TODO: verwijder button wanneer de database helemaal gemaakt en geimplementeerd is -->
         <input class="button" type="submit" name="change" id="change" value="verander spelmodus">
 

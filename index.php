@@ -73,7 +73,11 @@ $cpu_result = $game_data['cpu_result'] ?? '';
             <section class="player_name_section">
                 <form action="" method="post" class="welcome_form flex_column">
                     <div>
-                        <h2>Spelmodus</h2>
+                        <div class="flex_row j_content_between">
+                            <h2>Spelmodus</h2>
+                            <?=return_login_button($db_online)?>
+                        </div>
+                        <br>
                         <select name="game_mode" id="game_mode">
                             <option value="rock_paper_scissors">Steen Papier Schaar</option>
                             <option value="rock_paper_scissors_lizard_spock">Steen Papier Schaar Hagedis Spock</option>
