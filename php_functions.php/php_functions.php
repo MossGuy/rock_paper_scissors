@@ -44,6 +44,19 @@ function return_game_session() {
     return ['game_playable' => false];
 }
 
+function return_login_button() {
+    if (!isset($_SESSION['DBStatus'])) {
+        // nieuwe poging database verbinden
+        return "";
+    } else if (isset($_SESSION['loggedIn'])) {
+        // loguit button
+        return "";
+    } else {
+        // login button
+        return "";
+    }
+}
+
 if (isset($_POST['change'])) {
     // Controleer of er al een game sessie is
     if (!$game_finished) {

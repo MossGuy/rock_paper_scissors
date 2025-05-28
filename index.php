@@ -32,6 +32,7 @@ $handler = new GameHandler();
 $dbConfig = new DBConfig('127.0.0.1', 'db_games_milan', 'root', '');
 $handler->initDatabase($dbConfig);
 $db_online = $handler->db_connected;
+$db_online_string = $db_online ? 'online' : 'offline';
 
 if ($game_mode && $player) {
     $game_available = game_check($game_mode);
