@@ -16,16 +16,11 @@ use core\DBConfig;
 // === Haal de game-sessie op ===
 $game_session = return_game_session();
 
-// Als de game niet speelbaar is, haal dan de foutmelding en andere informatie op
 if (!$game_session['game_playable']) {
     $error_message = $game_session['error'] ?? null;
-    $case = $game_session['case'] ?? null;
 }
-
-// Haal de benodigde gegevens uit de game_session
 $game_mode = $game_session['game_mode'] ?? null;
 $player = $game_session['player'] ?? null;
-$case = $game_session['case'] ?? null;
 
 // === Game-aanspraak via GameHandler ===
 $game_data = [];
