@@ -71,6 +71,8 @@ $cpu_result = $game_data['cpu_result'] ?? '';
     <main class="game_container">
         <!-- Speler naam invoeren -->
         <?php if (!$player): ?>
+            <!-- TODO: user form uitbreiden met bestaande gebruiker sellecteren van db -->
+            <!-- return_game_session uitbreiden met database functionaliteiten -->
             <section class="player_name_section">
                 <form action="" method="post" class="welcome_form flex_column">
                     <div>

@@ -1,7 +1,6 @@
 <footer>
     <?php if ($game && !$game_finished): ?>
     <form action="" method="post">
-        <!-- TODO: buttons combineren naar "terug naar start" -->
         <input class="button" type="submit" name="change" id="change" value="Verander spelmodus">
         <input class="button" type="submit" name="exit" id="exit" value="Stoppen">
     </form>

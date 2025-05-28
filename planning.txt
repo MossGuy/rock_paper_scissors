@@ -2,6 +2,7 @@ class diagram:
 
 Namespaces:
 ├── core
+│   ├── DBConfig
 │   ├── Game
 │   ├── GameHandler
 │   └── Player
@@ -33,10 +34,11 @@ TODO:
   * inlogmodule uitbreiden
 
 
-
-Bestanden in de repository met TODO items (hoge prioriteit):
+Bestanden in de repository met TODO items
+(hoge prioriteit):
 * index.php
-* web_elements/footer.php
 * classes/core/player.php
+
+(lage prioriteit):
 * php_functions/functions.php
 * php_functions/isset.php
