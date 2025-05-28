@@ -1,9 +1,9 @@
 <footer>
+    <?php if ($game && !$game_finished): ?>
     <form action="" method="post">
-        <!-- TODO: verwijder button wanneer de database helemaal gemaakt en geimplementeerd is -->
-        <input class="button" type="submit" name="change" id="change" value="verander spelmodus">
-
-        <input class="button" type="submit" name="exit" id="exit" value="verwijder speler">
+        <!-- TODO: buttons combineren naar "terug naar start" -->
+        <input class="button" type="submit" name="change" id="change" value="Verander spelmodus">
+        <input class="button" type="submit" name="exit" id="exit" value="Stoppen">
     </form>
     <button>regels</button>
 
@@ -11,4 +11,5 @@
         <!-- regels afbeelding dynamisch ophalen doormiddel van het pad atribuut van de class -->
          
     </section>
+    <?php endif; ?>
 </footer>

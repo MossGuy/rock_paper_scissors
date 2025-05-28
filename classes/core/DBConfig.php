@@ -60,6 +60,7 @@ class DBConfig {
         try {
             $conn = $this->getConnection();
             $conn->query('SELECT 1');
+            unset($_SESSION['DBMessage']);
             return true;
         } catch (PDOException $e) {
             $_SESSION['DBMessage'] = $e->getMessage();

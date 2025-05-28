@@ -47,44 +47,13 @@ function return_game_session() {
 function return_login_button($status) {
     if (!$status) {
         // nieuwe poging database verbinden
-        return '<input class="button" type="submit" name="db_retry" id="db_retry" value="Verbind db" formnovalidate>';
+        return '<input class="button" type="submit" name="db_retry" id="db_retry" value="Verbind het database" formnovalidate>';
     } else {
-        // kan eventueel vervangen worden door een disconnect button
-        return "<p>Database verbonden</p>";
-        // return "";
+         // TODO: kan eventueel vervangen worden door een disconnect button
+        // bij de offline modus $_SESSION['DBMessage'] = "Verbinding handmatig verbroken"
+        
+        return;
     }
-}
-
-if (isset($_POST['change'])) {
-    // Controleer of er al een game sessie is
-    if (!$game_finished) {
-        $current_mode = $_SESSION['game']['game_mode'];
-        $_SESSION['game']['game_mode'] = ($current_mode === 'rock_paper_scissors') 
-    ? 'rock_paper_scissors_lizard_spock' 
-    : 'rock_paper_scissors';
-    }
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-}
-
-
-if (isset($_POST['reset'])) {
-    // TODO: kijk of deze variabelen ook in een versamelnaam opgeslagen kunnen worden
-    unset($_SESSION['player_choice'], $_SESSION['game_finished'], $_SESSION['round_result']);
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-}
-
-// de speler verwijderen uit de lokale session
-if (isset($_POST['exit'])) {
-    unset($_SESSION['game']);
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-}
-
-if (isset($_POST['db_retry'])) {
-    $_SESSION['DBAttempt'] = true;
-    header('Refresh:0');
 }
 
 ?>

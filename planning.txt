@@ -20,13 +20,6 @@ TODO:
 
 * laatste toevoeging: database connectie met spelers en score
   Taken database connectie:
-  * maak de database en tabel met benodigde columns:
-    * username
-    * wachtwoord (houd in dat de inlogmodule complexer word)
-    * datum verschenen in database
-    * score per game
-
-  * Importeer de DBConfig class en Database connectie knop
   
   * breid de php functie return_game_session() uit:
     * gebruiker moet een nieuwe player kunnen maken
@@ -35,7 +28,9 @@ TODO:
       * de vooruitgang en playernaam worden dan niet opgeslagen
       * de database kan alleen verbonden worden wanneer er geen lokale game is
       * de speler word niet verwijderd wanneer hij van game veranderd (knop in de footer is tijdelijk)
-
+  
+  * breid de database uit met een username en wachtwoord
+  * inlogmodule uitbreiden
 
 
 
@@ -44,3 +39,4 @@ Bestanden in de repository met TODO items (hoge prioriteit):
 * web_elements/footer.php
 * classes/core/player.php
 * php_functions/functions.php
+* php_functions/isset.php

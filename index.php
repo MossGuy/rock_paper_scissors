@@ -7,7 +7,8 @@ require_once './classes/core/gameHandler.php';
 require_once './classes/core/DBConfig.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors_lizard_spock.php';
-require_once './php_functions.php/php_functions.php';
+require_once './php_functions/php_functions.php';
+require_once './php_functions/isset.php';
 
 use core\GameHandler;
 use core\DBConfig;
@@ -32,7 +33,7 @@ $handler = new GameHandler();
 $dbConfig = new DBConfig('127.0.0.1', 'db_games_milan', 'root', '');
 $handler->initDatabase($dbConfig);
 $db_online = $handler->db_connected;
-$db_online_string = $db_online ? 'online' : 'offline';
+$db_online_string = $db_online ? 'database verbonden' : 'offline';
 
 if ($game_mode && $player) {
     $game_available = game_check($game_mode);
@@ -73,10 +74,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
             <section class="player_name_section">
                 <form action="" method="post" class="welcome_form flex_column">
                     <div>
-                        <div class="flex_row j_content_between">
-                            <h2>Spelmodus</h2>
-                            <?=return_login_button($db_online)?>
-                        </div>
+                        <h2>Spelmodus</h2>
                         <br>
                         <select name="game_mode" id="game_mode">
                             <option value="rock_paper_scissors">Steen Papier Schaar</option>
@@ -89,6 +87,13 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                         <input class="button" type="submit" name="go" value="Start het spel">
                     </div>
                 </form>
+
+                <!-- feedback database -->
+                <div class="db_feedback">
+                    <p>Database <?=$db_online_string?></p>
+                    <br>
+                    <?=return_login_button($db_online)?>
+                </div>
             </section>
         <?php endif; ?>
 
