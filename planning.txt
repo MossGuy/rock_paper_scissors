@@ -30,8 +30,9 @@ TODO:
       * de database kan alleen verbonden worden wanneer er geen lokale game is
       * de speler word niet verwijderd wanneer hij van game veranderd (knop in de footer is tijdelijk)
   
-  * breid de database uit met een username en wachtwoord
-  * inlogmodule uitbreiden
+  * inlogmodule uitbreiden (ui responsive maken)
+  * methode return_game_session() uitbreiden met database functionaliteiten
+  * DBHandler methodes uitschrijven en toepassen op de juiste plekken
 
 
 Bestanden in de repository met TODO items
