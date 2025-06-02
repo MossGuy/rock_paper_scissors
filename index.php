@@ -25,10 +25,10 @@ $player = $game_session['player'] ?? null;
 // === Game-aanspraak via GameHandler ===
 $game_data = [];
 $handler = new GameHandler();
-$dbConfig = new DBConfig('127.0.0.1', 'db_games_milan', 'root', '');
+$dbConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
 $handler->initDatabase($dbConfig);
 $db_online = $handler->db_connected;
-$db_online_string = $db_online ? 'database verbonden' : 'offline';
+$db_online_string = $db_online ? 'verbonden' : 'offline';
 
 if ($game_mode && $player) {
     $game_available = game_check($game_mode);
@@ -86,13 +86,11 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                 </form>
 
                 <!-- feedback database -->
-                 <?php if (!$db_online): ?>
                 <div class="db_feedback">
                     <p>Database <?=$db_online_string?></p>
                     <br>
                     <?=return_connect_button($db_online)?>
                 </div>
-                <?php endif; ?>
             </section>
         <?php endif; ?>
 

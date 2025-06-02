@@ -4,11 +4,13 @@ namespace core;
 class Player {
     // propperties
     protected string $name;
+    protected int $id;
     protected array $scores = [];
 
     // constructor
-    public function __construct(string $name) {
+    public function __construct(string $name, int $id = 0) {
         $this->name = $name;
+        $this->id = $id;
     }
 
     // getters

@@ -1,10 +1,11 @@
-DROP DATABASE IF EXISTS `db_games_milan`;
-CREATE DATABASE `db_games_milan`;
-USE `db_games_milan`;
+DROP DATABASE IF EXISTS `milan_games_db`;
+CREATE DATABASE `milan_games_db`;
+USE `milan_games_db`;
 
 CREATE TABLE `users` (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
