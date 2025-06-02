@@ -5,6 +5,7 @@ require_once './classes/core/game.php';
 require_once './classes/core/player.php';
 require_once './classes/core/gameHandler.php';
 require_once './classes/core/DBConfig.php';
+require_once './classes/core/DBHandler.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors.php';
 require_once './classes/games/rock_paper_scissors/rock_paper_scissors_lizard_spock.php';
 require_once './php_functions/php_functions.php';
@@ -12,6 +13,7 @@ require_once './php_functions/isset.php';
 
 use core\GameHandler;
 use core\DBConfig;
+use core\DBHandler;
 
 // === Haal de game-sessie op ===
 $game_session = return_game_session();
@@ -24,16 +26,16 @@ $player = $game_session['player'] ?? null;
 
 // === Game-aanspraak via GameHandler ===
 $game_data = [];
-$handler = new GameHandler();
-$dbConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
-$handler->initDatabase($dbConfig);
-$db_online = $handler->db_connected;
+$DBConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
+$DBHandler = new DBHandler($DBConfig);
+$db_online = $DBHandler->checkConnection();
 $db_online_string = $db_online ? 'verbonden' : 'offline';
+$gameHandler = new GameHandler($DBHandler);
 
 if ($game_mode && $player) {
     $game_available = game_check($game_mode);
     if ($game_available) {
-        $game_data = $handler->run($player, $game_mode);
+        $game_data = $gameHandler->run($player, $game_mode);
     }
 }
 

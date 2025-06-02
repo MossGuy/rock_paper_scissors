@@ -5,13 +5,12 @@ use core\Player;
 use games\rock_paper_scissors\Rock_paper_scissors;
 use games\rock_paper_scissors\Rock_paper_scissors_lizard_spock;
 use core\DBConfig;
+use core\DBHandler;
 
 class GameHandler {
-    public bool $db_connected = false;
-    public function initDatabase(DBConfig $dbConfig): void {
-        $this->db_connected = $dbConfig->db_check();
+    public function __construct(DBHandler $dbHandler) {
+        $this->dbHandler = $dbHandler;
     }
-
     public function handleGamePlay($game, $player): array {
         // Check of player_choice is gezet
         if (isset($_POST['player_choice'])) {
@@ -34,10 +33,7 @@ class GameHandler {
         ];
     }
 
-    public function run(Player $player, string $active_game): array {
-        $dbConfig = new DBConfig('127.0.0.1', 'db_games_milan', 'root', '');
-        $this->initDatabase($dbConfig);
-    
+    public function run(Player $player, string $active_game): array {    
         switch ($active_game) {
             case 'rock_paper_scissors':
                 $game = new Rock_paper_scissors($player);

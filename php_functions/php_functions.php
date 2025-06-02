@@ -8,6 +8,7 @@ function game_check(string $game): bool {
 }
 
 function return_game_session() {
+    // formulier uitlezen
     if (isset($_POST['go'])) {
         $game_mode = $_POST['game_mode'] ?? null;
         $player_name = $_POST['player_name'] ?? null;
@@ -29,6 +30,7 @@ function return_game_session() {
         exit;
     }
 
+    // game sessie uitlezen
     if (isset($_SESSION['game'])) {
         $game_mode = $_SESSION['game']['game_mode'];
         $player = unserialize($_SESSION['game']['player']);
@@ -41,6 +43,7 @@ function return_game_session() {
         ];
     }
 
+    // formulier en game sessie niet aanwezig
     return ['game_playable' => false];
 }
 
