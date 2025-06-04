@@ -28,7 +28,7 @@ $player = $game_session['player'] ?? null;
 $game_data = [];
 $DBConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
 $DBHandler = new DBHandler($DBConfig);
-$db_online = $DBHandler->checkConnection();
+$db_online = $DBHandler->attemptConnectionIfAllowed();
 $db_online_string = $db_online ? 'verbonden' : 'offline';
 $gameHandler = new GameHandler($DBHandler);
 
@@ -71,21 +71,46 @@ $cpu_result = $game_data['cpu_result'] ?? '';
             <!-- TODO: user form uitbreiden met bestaande gebruiker sellecteren van db -->
             <!-- return_game_session uitbreiden met database functionaliteiten -->
             <section class="player_name_section">
-                <form action="" method="post" class="welcome_form flex_column">
-                    <div>
-                        <h2>Spelmodus</h2>
-                        <br>
-                        <select name="game_mode" id="game_mode">
-                            <option value="rock_paper_scissors">Steen Papier Schaar</option>
-                            <option value="rock_paper_scissors_lizard_spock">Steen Papier Schaar Hagedis Spock</option>
-                        </select>
-                    </div>
+            <form action="" method="post" class="welcome_form flex_column">
+                <div>
+                    <h2>Spelmodus</h2>
                     <br>
+                    <select name="game_mode" id="game_mode">
+                        <option value="rock_paper_scissors">Steen Papier Schaar</option>
+                        <option value="rock_paper_scissors_lizard_spock">Steen Papier Schaar Hagedis Spock</option>
+                    </select>
+                </div>
+                <br>
+
+                <!-- Dynamisch deel op basis van databaseverbinding -->
+                <?php if ($db_online): ?>
+                    <div>
+                        <h2>Speler login / registratie</h2>
+                        <br>
+                        <label>
+                            <input type="radio" name="auth_mode" value="login" checked onchange="toggleAuthMode()"> Bestaande speler
+                        </label>
+                        <label>
+                            <input type="radio" name="auth_mode" value="register" onchange="toggleAuthMode()"> Nieuwe speler
+                        </label>
+                        <br><br>
+                        <div id="auth_fields">
+                            <input class="textbox" type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
+                            <br><br>
+                            <input class="textbox" type="password" id="password" name="password" placeholder="Wachtwoord" required>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <!-- Fallback als geen database is verbonden -->
                     <div class="flex_row">
                         <input class="textbox" type="text" id="player_name" name="player_name" placeholder="Wat is je naam?" required>
-                        <input class="button" type="submit" name="go" value="Start het spel">
                     </div>
-                </form>
+                <?php endif; ?>
+
+                <br>
+                <input class="button" type="submit" name="go" value="Start het spel">
+            </form>
+
 
                 <!-- feedback database -->
                 <div class="db_feedback">
