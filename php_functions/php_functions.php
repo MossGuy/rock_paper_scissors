@@ -9,14 +9,15 @@ function game_check(string $game): bool {
 }
 
 function return_game_session(DBHandler $DBHandler): array {
+    // === formulier uitlezen ===
     if (isset($_POST['go'])) {
         $game_mode = $_POST['game_mode'] ?? null;
         $db_status = $_POST['db_status'] ?? 'offline';
-
         if (!game_check($game_mode)) {
             return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Ongeldige game mode.'];
         }
 
+        // database offline
         if ($db_status === 'offline') {
             $player_name = $_POST['player_name'] ?? null;
 
@@ -24,9 +25,11 @@ function return_game_session(DBHandler $DBHandler): array {
                 return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Vul je naam in.'];
             }
 
+            // offline player aanmaken zonder wachtwoord
             $player = new Player($player_name);
         }
 
+        // database verbonden
         if ($db_status === 'verbonden') {
             $username = $_POST['username'] ?? null;
             $password = $_POST['password'] ?? null;
@@ -36,9 +39,14 @@ function return_game_session(DBHandler $DBHandler): array {
                 return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Vul gebruikersnaam, wachtwoord en modus in.'];
             }
 
-            // TODO: error message spreekt voor zich
             throw new Exception("Database vervonden pad berijkt. login en nieuwe user functies dienen uitgewerkt te worden.");
 
+            // TODO:
+            // === onderscheid maken tussen nieuwe gebruiker en bestaande gebruiker ===
+            // --- nieuwe gebruiker aan database toevoegen ---
+            // --- player class maken en opslaan in de session ---
+
+            // review code van chatGPT
             // if ($auth_mode === 'login') {
             //     // ongebruikte methode call van chatGPT
             //     $player = $DBHandler->loginPlayer($username, $password);
@@ -68,7 +76,7 @@ function return_game_session(DBHandler $DBHandler): array {
         exit;
     }
 
-    // Game sessie ophalen
+    // === Game in sessie aanwezig ===
     if (isset($_SESSION['game'])) {
         $game_mode = $_SESSION['game']['game_mode'];
         $player = unserialize($_SESSION['game']['player']);
@@ -81,6 +89,7 @@ function return_game_session(DBHandler $DBHandler): array {
         ];
     }
 
+    // === game sessie en formulier niet beschikbaar ===
     return ['game_playable' => false];
 }
 

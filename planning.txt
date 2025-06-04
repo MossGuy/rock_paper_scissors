@@ -25,21 +25,17 @@ TODO:
   * breid de php functie return_game_session() uit:
     * gebruiker moet een nieuwe player kunnen maken
     * gebruiker moet bestaande player gunnen sellecteren
-    * gebruiker moet offline kunnen spelen als de database niet verbonden is:
-      * de vooruitgang en playernaam worden dan niet opgeslagen
-      * de database kan alleen verbonden worden wanneer er geen lokale game is
-      * de speler word niet verwijderd wanneer hij van game veranderd (knop in de footer is tijdelijk)
   
-  * inlogmodule uitbreiden (ui responsive maken)
-  * methode return_game_session() uitbreiden met database functionaliteiten
   * DBHandler methodes uitschrijven en toepassen op de juiste plekken
 
 
 Bestanden in de repository met TODO items
 (hoge prioriteit):
 * index.php
-* classes/core/player.php
+* ./php_functions/functions.php
+* ./classes/core/DBHandler.php
+* ./classes/core/player.php
 
 (lage prioriteit):
-* php_functions/functions.php
-* php_functions/isset.php
+* ./php_functions/functions.php
+* ./php_functions/isset.php

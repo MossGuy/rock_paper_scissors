@@ -37,8 +37,7 @@ class DBHandler {
     }
 
     // opnieuw verbinden reguleren
-    public function attemptConnectionIfAllowed(): bool {
-        // Sessie-instelling controleren
+    public function db_check(): bool {
         if (!isset($_SESSION['DBAttempt'])) {
             $_SESSION['DBAttempt'] = true; // standaard: poging toestaan
         }
@@ -66,57 +65,75 @@ class DBHandler {
             return false;
         }
     }
+    private function executeQuery(string $sql, array $params = []) {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
     
-
     // controlleer de verbinding
     public function checkConnection(): bool {
         return $this->pdo !== null;
     }
 
     // User methods
-    function create_user($username, $password) {
-        return;
+    public function create_user(string $username, string $password): ?int {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $stmt = $this->executeQuery($sql, [$username, $hashedPassword]);
+    
+        // Controleer of insert gelukt is
+        if ($stmt && $stmt->rowCount() === 1) {
+            // Haal ID van nieuw record op
+            return (int) $this->pdo->lastInsertId();
+        }
+    
+        // Insert mislukt
+        return null;
     }
+    
     function get_user_by_id($id) {
+        // haal waarde op - return aray
         return;
     }
     function get_user_by_username($username) {
+        // haal waarde op - return aray
         return;
     }
     function delete_user($id) {
+        // bewerk database - return bool
         return;
     }
     function user_exists($username) {
+        // haal waarde op - return bool
         return;
     }
     function validate_login($username, $password) {
+        // haal waarde op en vergelijk met inputs - return bool
         return;
     }
 
     // Score methods
     function get_score($user_id, $game_id) {
+        // haal waarde op - return int
         return;
     }
     function update_score($user_id, $game_id, $score) {
+        // bewerk database - return bool
         return;
     }
     function score_exists($user_id, $game_id) {
+        // haal waarde op - return bool
         return;
     }
 
     // Game methods
     function get_all_games() {
+        // haal waarde op - return aray
         return;
     }
     function get_game_by_id($id) {
-        return;
-    }
-
-    // Optional auth/session methods
-    function logout_user() {
-        return;
-    }
-    function is_logged_in() {
+        // haal waarde op - return string
         return;
     }
 

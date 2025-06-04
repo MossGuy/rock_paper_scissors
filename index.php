@@ -18,7 +18,7 @@ use core\DBHandler;
 // === Database configuratie en handler aanmaken ===
 $DBConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
 $DBHandler = new DBHandler($DBConfig);
-$db_online = $DBHandler->attemptConnectionIfAllowed();
+$db_online = $DBHandler->db_check();
 $db_online_string = $db_online ? 'verbonden' : 'offline';
 
 // === Haal de game-sessie op, nu met DBHandler als argument ===
