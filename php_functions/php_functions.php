@@ -39,7 +39,7 @@ function return_game_session(DBHandler $DBHandler): array {
                 return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Vul gebruikersnaam, wachtwoord en modus in.'];
             }
 
-            throw new Exception("Database vervonden pad berijkt. login en nieuwe user functies dienen uitgewerkt te worden.");
+            throw new Exception("Database verbonden pad berijkt. login en nieuwe user functies dienen uitgewerkt te worden.");
 
             // TODO:
             // === onderscheid maken tussen nieuwe gebruiker en bestaande gebruiker ===
