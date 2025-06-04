@@ -3,6 +3,7 @@ class diagram:
 Namespaces:
 ├── core
 │   ├── DBConfig
+│   ├── DBHandler
 │   ├── Game
 │   ├── GameHandler
 │   └── Player
