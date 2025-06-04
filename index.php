@@ -87,22 +87,21 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                     <div>
                         <h2>Speler login / registratie</h2>
                         <br>
-                        <label>
-                            <input type="radio" name="auth_mode" value="login" checked onchange="toggleAuthMode()"> Bestaande speler
+                        <label class="radioItem">
+                            <input class="radioButton" type="radio" name="auth_mode" value="login" checked onchange="toggleAuthMode()"> Bestaande speler
                         </label>
-                        <label>
-                            <input type="radio" name="auth_mode" value="register" onchange="toggleAuthMode()"> Nieuwe speler
+                        <label class="radioItem">
+                            <input class="radioButton" type="radio" name="auth_mode" value="register" onchange="toggleAuthMode()"> Nieuwe speler
                         </label>
                         <br><br>
                         <div id="auth_fields">
                             <input class="textbox" type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
-                            <br><br>
                             <input class="textbox" type="password" id="password" name="password" placeholder="Wachtwoord" required>
                         </div>
                     </div>
                 <?php else: ?>
                     <!-- Fallback als geen database is verbonden -->
-                    <div class="flex_row">
+                    <div>
                         <input class="textbox" type="text" id="player_name" name="player_name" placeholder="Wat is je naam?" required>
                     </div>
                 <?php endif; ?>

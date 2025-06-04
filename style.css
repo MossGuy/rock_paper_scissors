@@ -156,6 +156,11 @@ main {
     border: 4px dashed var(--Dark_Text_blend);
 }
 
+#auth_fields input, #player_name {
+    width: 100%;
+    margin: 5px 0;
+}
+
 /* universele_classes */
 .unavailable {
     display: none !important;
@@ -192,6 +197,40 @@ main {
 .t_center {
     text-align: center;
 }
+
+.radioItem {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 4px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  
+  .radioItem:not(:last-of-type) {
+    margin-right: 16px;
+  }
+  
+  .radioButton {
+    appearance: none;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #000000;
+    border-radius: 9999px;
+    background-color: #dedede;
+    cursor: pointer;
+  }
+  
+  .radioButton:checked::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 12px;
+    height: 12px;
+    margin: auto;
+    border-radius: 9999px;
+    background-color: #de9821;
+  }
 
 .game_container {
     padding: 1rem;
