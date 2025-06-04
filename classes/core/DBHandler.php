@@ -65,15 +65,15 @@ class DBHandler {
             return false;
         }
     }
+    public function checkConnection(): bool {
+        return $this->pdo !== null;
+    }
+    
+    // database waarden uitlezen en bewerken
     private function executeQuery(string $sql, array $params = []) {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt;
-    }
-    
-    // controlleer de verbinding
-    public function checkConnection(): bool {
-        return $this->pdo !== null;
     }
 
     // User methods
