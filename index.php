@@ -15,8 +15,14 @@ use core\GameHandler;
 use core\DBConfig;
 use core\DBHandler;
 
-// === Haal de game-sessie op ===
-$game_session = return_game_session();
+// === Database configuratie en handler aanmaken ===
+$DBConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
+$DBHandler = new DBHandler($DBConfig);
+$db_online = $DBHandler->attemptConnectionIfAllowed();
+$db_online_string = $db_online ? 'verbonden' : 'offline';
+
+// === Haal de game-sessie op, nu met DBHandler als argument ===
+$game_session = return_game_session($DBHandler);
 
 if (!$game_session['game_playable']) {
     $error_message = $game_session['error'] ?? null;
@@ -25,11 +31,6 @@ $game_mode = $game_session['game_mode'] ?? null;
 $player = $game_session['player'] ?? null;
 
 // === Game-aanspraak via GameHandler ===
-$game_data = [];
-$DBConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
-$DBHandler = new DBHandler($DBConfig);
-$db_online = $DBHandler->attemptConnectionIfAllowed();
-$db_online_string = $db_online ? 'verbonden' : 'offline';
 $gameHandler = new GameHandler($DBHandler);
 
 if ($game_mode && $player) {
@@ -72,6 +73,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
             <!-- return_game_session uitbreiden met database functionaliteiten -->
             <section class="player_name_section">
             <form action="" method="post" class="welcome_form flex_column">
+                <input type="hidden" name="db_status" id="db_status" value="<?=$db_online_string?>">
                 <div>
                     <h2>Spelmodus</h2>
                     <br>
