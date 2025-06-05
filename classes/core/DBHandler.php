@@ -152,5 +152,11 @@ class DBHandler {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['name'] : null;
     }
+    public function get_game_by_name($name) {
+        $sql = "SELECT * FROM games WHERE name = ?";
+        $stmt = $this->executeQuery($sql, [$name]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : null;
+    }
 }
 ?>

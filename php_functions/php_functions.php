@@ -50,6 +50,15 @@ function return_game_session(DBHandler $DBHandler): array {
                     if ($DBHandler->validate_login($username, $password)) {
                         $user_data = $DBHandler->get_user_by_username($username);
                         $player = new Player($user_data['username'], $user_data['id']);
+                        $player->setDatabaseHandler($DBHandler);
+                
+                        if (!empty($game_mode)) {
+                            $game = $DBHandler->get_game_by_name($game_mode);
+                            if ($game) {
+                                $score = $DBHandler->get_score($user_data['id'], $game['id']);
+                                $player->setScore($game_mode, $score);
+                            }
+                        }
                     } else {
                         $_SESSION['game_error'] = 'De opgegeven inloggegevens zijn incorrect.';
                         header("Location: " . $_SERVER['PHP_SELF']);
@@ -98,6 +107,7 @@ function return_game_session(DBHandler $DBHandler): array {
     if (isset($_SESSION['game'])) {
         $game_mode = $_SESSION['game']['game_mode'];
         $player = unserialize($_SESSION['game']['player']);
+        $player->setDatabaseHandler($DBHandler);
 
         return [
             'game_playable' => true,
@@ -108,7 +118,7 @@ function return_game_session(DBHandler $DBHandler): array {
 
     // === Formulier is niet verzonden, toon evt. fout uit sessie ===
     $error = $_SESSION['game_error'] ?? null;
-    unset($_SESSION['game_error']); // alleen 1x tonen
+    unset($_SESSION['game_error']);
 
     return [
         'game_playable' => false,

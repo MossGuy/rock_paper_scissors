@@ -7,12 +7,14 @@ abstract class Game {
     // propperties
     protected string $title;
     protected string $displayTitle;
+    protected int $id;
     protected Player $player;
 
     //constructor
-    public function __construct(string $title, string $display_title, Player $player) {
+    public function __construct(string $title, string $display_title, int $game_id, Player $player) {
         $this->title = $title;
         $this->displayTitle = $display_title;
+        $this->id = $game_id;
         $this->player = $player;
     }
 

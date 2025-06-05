@@ -3,14 +3,15 @@ namespace games\rock_paper_scissors;
 
 use core\Game;
 use core\Player;
+use Exception;
 
 class Rock_paper_scissors extends Game {
     // propperties
     private array $options = ['steen', 'papier', 'schaar'];
 
     // Constructor
-    public function __construct(Player $player, string $title = 'rock_paper_scissors', string $displayTitle = 'Steen <br> Papier <br> Schaar', array $options = ['steen', 'papier', 'schaar']) {
-        parent::__construct($title, $displayTitle, $player);
+    public function __construct(Player $player, string $title = 'rock_paper_scissors', string $displayTitle = 'Steen <br> Papier <br> Schaar', $id = 1, array $options = ['steen', 'papier', 'schaar']) {
+        parent::__construct($title, $displayTitle, $id, $player);
         $this->options = $options;
     }
 
@@ -55,7 +56,7 @@ class Rock_paper_scissors extends Game {
         $result = $this->determineWinner($playerChoice, $computerChoice, $winningPairs);
 
         if ($result === "gewonnen") {
-            $this->player->addWin($this->title);
+            $this->player->addWin($this->title, $this->id);
         }
 
         return [

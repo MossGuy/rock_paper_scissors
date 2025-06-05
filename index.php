@@ -34,9 +34,10 @@ $player = $game_session['player'] ?? null;
 $gameHandler = new GameHandler($DBHandler);
 
 if ($game_mode && $player) {
+    $player->setDatabaseHandler($DBHandler);
     $game_available = game_check($game_mode);
     if ($game_available) {
-        $game_data = $gameHandler->run($player, $game_mode);
+        $game_data = $gameHandler->run($player, $game_mode, $db_online);
     }
 }
 
@@ -125,6 +126,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
         <?php if ($game && !$game_finished): ?>
             <section class="game_window">
                 <form action="" method="post">
+                    <input type="hidden" name="db_status" id="db_status" value="<?=$db_online_string?>">
                     <?php foreach ($game->getOptions() as $option): ?>
                         <?= $game->renderOptionInput($option) ?>
                     <?php endforeach; ?>

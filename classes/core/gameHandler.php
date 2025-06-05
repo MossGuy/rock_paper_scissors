@@ -11,13 +11,12 @@ class GameHandler {
     public function __construct(DBHandler $dbHandler) {
         $this->dbHandler = $dbHandler;
     }
-    public function handleGamePlay($game, $player): array {
-        // Check of player_choice is gezet
+    public function handleGamePlay($game, $player, $db_online): array {
         if (isset($_POST['player_choice'])) {
             $_SESSION['player_choice'] = $_POST['player_choice'];
             $_SESSION['game_finished'] = true;
 
-            $_SESSION['round_result'] = $game->play($_POST['player_choice']);
+            $_SESSION['round_result'] = $game->play($_POST['player_choice'], $db_online);
             $_SESSION['game']['player'] = serialize($player);
 
             header("Location: " . $_SERVER['PHP_SELF']);
@@ -33,15 +32,15 @@ class GameHandler {
         ];
     }
 
-    public function run(Player $player, string $active_game): array {    
+    public function run(Player $player, string $active_game, $db_online): array {    
         switch ($active_game) {
             case 'rock_paper_scissors':
                 $game = new Rock_paper_scissors($player);
-                return $this->handleGamePlay($game, $player);
+                return $this->handleGamePlay($game, $player, $db_online);
     
             case 'rock_paper_scissors_lizard_spock':
                 $game = new Rock_paper_scissors_lizard_spock($player);
-                return $this->handleGamePlay($game, $player);
+                return $this->handleGamePlay($game, $player, $db_online);
     
             default:
                 return ['error' => 'Game "' . $active_game . '" not found.'];
