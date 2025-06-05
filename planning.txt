@@ -22,20 +22,11 @@ TODO:
 
 * laatste toevoeging: database connectie met spelers en score
   Taken database connectie:
-  
-  * breid de php functie return_game_session() uit:
-    * gebruiker moet een nieuwe player kunnen maken
-    * gebruiker moet bestaande player gunnen sellecteren
-  
   * Administrator account maken die spelers kan beheren
   * database feedback alleen tonen als:
     database niet verbonden is OF $_SESSION['game_error'] bestaat
 
 
 Bestanden in de repository met TODO items
-(hoge prioriteit):
-* ./classes/core/player.php
-
-(lage prioriteit):
 * ./php_functions/functions.php
 * ./php_functions/isset.php
