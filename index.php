@@ -69,8 +69,6 @@ $cpu_result = $game_data['cpu_result'] ?? '';
     <main class="game_container">
         <!-- Speler naam invoeren -->
         <?php if (!$player): ?>
-            <!-- TODO: user form uitbreiden met bestaande gebruiker sellecteren van db -->
-            <!-- return_game_session uitbreiden met database functionaliteiten -->
             <section class="player_name_section">
             <form action="" method="post" class="welcome_form flex_column">
                 <input type="hidden" name="db_status" id="db_status" value="<?=$db_online_string?>">
@@ -119,7 +117,6 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                     <p class="accent"><?= $game_session['error']??''; ?></p>
                     <br>
                     <?=return_connect_button($db_online)?>
-                    <!-- TODO: Opnieuw indienen bevestigen afhandelen -->
                 </div>
             </section>
         <?php endif; ?>

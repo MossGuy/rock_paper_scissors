@@ -33,9 +33,6 @@ TODO:
 
 Bestanden in de repository met TODO items
 (hoge prioriteit):
-* index.php
-* ./php_functions/functions.php
-* ./classes/core/DBHandler.php
 * ./classes/core/player.php
 
 (lage prioriteit):
