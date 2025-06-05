@@ -39,10 +39,31 @@ function return_game_session(DBHandler $DBHandler): array {
                 return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Vul gebruikersnaam, wachtwoord en modus in.'];
             }
 
-            throw new Exception("Database verbonden pad berijkt. login en nieuwe user functies dienen uitgewerkt te worden.");
+            switch($auth_mode) {
+                case 'login':
+                    // === valideer login: ===
+                    // --- true: ---
+                    //
+
+                    // --- false: ---
+
+                    break;
+                case 'register':
+                    // === bekijk of de username al geregistreerd is: ===
+                    // --- true: ---
+                    //
+
+                    // --- false: ---
+                    //
+
+                    break;
+                default:
+                    return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Er is een onbekende fout met de login / nieuwe gebruiker selectie.'];
+            }
+
+            throw new Exception("Lekker debuggen: " . $auth_mode);
 
             // TODO:
-            // === onderscheid maken tussen nieuwe gebruiker en bestaande gebruiker ===
             // --- nieuwe gebruiker aan database toevoegen ---
             // --- player class maken en opslaan in de session ---
 

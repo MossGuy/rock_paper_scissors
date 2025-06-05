@@ -21,7 +21,7 @@ class DBHandler {
     }
 
 
-    // nieuwe db_check
+    // === nieuwe db_check ===
     public function getConnection(): ?PDO {
         // Probeer opnieuw verbinding als er nog geen is
         if ($this->pdo === null) {
@@ -36,7 +36,7 @@ class DBHandler {
         return $this->pdo;
     }
 
-    // opnieuw verbinden reguleren
+    // === opnieuw verbinden reguleren ===
     public function db_check(): bool {
         if (!isset($_SESSION['DBAttempt'])) {
             $_SESSION['DBAttempt'] = true; // standaard: poging toestaan
@@ -69,7 +69,7 @@ class DBHandler {
         return $this->pdo !== null;
     }
     
-    // database waarden uitlezen en bewerken
+    // === database waarden uitlezen en bewerken ===
     private function executeQuery(string $sql, array $params = []) {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
@@ -82,14 +82,12 @@ class DBHandler {
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         $stmt = $this->executeQuery($sql, [$username, $hashedPassword]);
     
-        // Controleer of insert gelukt is
         if ($stmt && $stmt->rowCount() === 1) {
-            // Haal ID van nieuw record op
             return (int) $this->pdo->lastInsertId();
         }
     
         // Insert mislukt
-        return null;
+        return false;
     }
     
     function get_user_by_id($id) {
@@ -118,18 +116,25 @@ class DBHandler {
         // haal waarde op - return int
         return;
     }
-    function update_score($user_id, $game_id, $score) {
-        // bewerk database - return bool
+    function update_score($user_id, $game_id, $new_score) {
+        // === haal bestaande score op met shared key ===
+        // --- operatie mogelijk: ---
+        // upate de score
+
+        // --- operatie niet mogelijk: ---
+        // insert score
+
+        // return bool die aangeeft of een van de twee database operaties gelukt is
         return;
     }
     function score_exists($user_id, $game_id) {
-        // haal waarde op - return bool
+        // probeer waarde op te halen - return bool
         return;
     }
 
     // Game methods
     function get_all_games() {
-        // haal waarde op - return aray
+        // haal waardes op - return aray
         return;
     }
     function get_game_by_id($id) {
