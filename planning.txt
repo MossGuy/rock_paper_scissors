@@ -27,8 +27,9 @@ TODO:
     * gebruiker moet een nieuwe player kunnen maken
     * gebruiker moet bestaande player gunnen sellecteren
   
-  * DBHandler methodes uitschrijven en toepassen op de juiste plekken
   * Administrator account maken die spelers kan beheren
+  * database feedback alleen tonen als:
+    database niet verbonden is OF $_SESSION['game_error'] bestaat
 
 
 Bestanden in de repository met TODO items
