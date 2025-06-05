@@ -8,22 +8,19 @@ class DBHandler {
     private DBConfig $config;
     private ?PDO $pdo = null;
 
+    // === Database verbinden ===
     public function __construct(DBConfig $config) {
         $this->config = $config;
 
         try {
             $this->pdo = $this->config->getConnection();
         } catch (PDOException $e) {
-            // Log fout en laat verbinding null
             error_log("Fout bij databaseverbinding: " . $e->getMessage());
             $this->pdo = null;
         }
     }
 
-
-    // === nieuwe db_check ===
     public function getConnection(): ?PDO {
-        // Probeer opnieuw verbinding als er nog geen is
         if ($this->pdo === null) {
             try {
                 $this->pdo = $this->config->getConnection();
@@ -32,32 +29,26 @@ class DBHandler {
                 $this->pdo = null;
             }
         }
-
         return $this->pdo;
     }
 
-    // === opnieuw verbinden reguleren ===
     public function db_check(): bool {
         if (!isset($_SESSION['DBAttempt'])) {
-            $_SESSION['DBAttempt'] = true; // standaard: poging toestaan
+            $_SESSION['DBAttempt'] = true;
         }
-    
+
         if (!$_SESSION['DBAttempt']) {
-            return false; // gebruiker wil geen (nieuwe) poging
+            return false;
         }
-    
-        // Poging om verbinding te maken
+
         try {
             $this->pdo = $this->config->getConnection();
-            $this->pdo->query('SELECT 1'); // eenvoudige query om te testen
-    
-            // Reset sessiestatus bij succes
+            $this->pdo->query('SELECT 1');
             unset($_SESSION['DBMessage']);
             $_SESSION['DBStatus'] = true;
             return true;
-    
+
         } catch (PDOException $e) {
-            // Fout bij verbinding -> sessie instellen
             $_SESSION['DBMessage'] = $e->getMessage();
             $_SESSION['DBStatus'] = false;
             $_SESSION['DBAttempt'] = false;
@@ -65,83 +56,101 @@ class DBHandler {
             return false;
         }
     }
+
     public function checkConnection(): bool {
         return $this->pdo !== null;
     }
-    
-    // === database waarden uitlezen en bewerken ===
+
     private function executeQuery(string $sql, array $params = []) {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt;
     }
 
-    // User methods
+    // === User Queries ===
     public function create_user(string $username, string $password): ?int {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         $stmt = $this->executeQuery($sql, [$username, $hashedPassword]);
-    
+
         if ($stmt && $stmt->rowCount() === 1) {
             return (int) $this->pdo->lastInsertId();
         }
-    
-        // Insert mislukt
+        return null;
+    }
+
+    public function get_user_by_id($id) {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        $stmt = $this->executeQuery($sql, [$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function get_user_by_username($username) {
+        $sql = "SELECT * FROM users WHERE username = ?";
+        $stmt = $this->executeQuery($sql, [$username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function delete_user($id): bool {
+        $sql = "DELETE FROM users WHERE id = ?";
+        $stmt = $this->executeQuery($sql, [$id]);
+        return $stmt->rowCount() > 0;
+    }
+
+    public function user_exists($username): bool {
+        $sql = "SELECT id FROM users WHERE username = ?";
+        $stmt = $this->executeQuery($sql, [$username]);
+        return $stmt->rowCount() > 0;
+    }
+
+    public function validate_login($username, $password): bool {
+        $user = $this->get_user_by_username($username);
+        if ($user && password_verify($password, $user['password'])) {
+            return true;
+        }
         return false;
     }
-    
-    function get_user_by_id($id) {
-        // haal waarde op - return aray
-        return;
-    }
-    function get_user_by_username($username) {
-        // haal waarde op - return aray
-        return;
-    }
-    function delete_user($id) {
-        // bewerk database - return bool
-        return;
-    }
-    function user_exists($username) {
-        // haal waarde op - return bool
-        return;
-    }
-    function validate_login($username, $password) {
-        // haal waarde op en vergelijk met inputs - return bool
-        return;
+
+    // === Score Queries ===
+    public function get_score($user_id, $game_id): ?int {
+        $sql = "SELECT score FROM scores WHERE player_id = ? AND game_id = ?";
+        $stmt = $this->executeQuery($sql, [$user_id, $game_id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (int)$result['score'] : null;
     }
 
-    // Score methods
-    function get_score($user_id, $game_id) {
-        // haal waarde op - return int
-        return;
-    }
-    function update_score($user_id, $game_id, $new_score) {
-        // === haal bestaande score op met shared key ===
-        // --- operatie mogelijk: ---
-        // upate de score
-
-        // --- operatie niet mogelijk: ---
-        // insert score
-
-        // return bool die aangeeft of een van de twee database operaties gelukt is
-        return;
-    }
-    function score_exists($user_id, $game_id) {
-        // probeer waarde op te halen - return bool
-        return;
+    public function update_score($user_id, $game_id, $new_score): bool {
+        if ($this->score_exists($user_id, $game_id)) {
+            // Update bestaande score
+            $sql = "UPDATE scores SET score = ? WHERE player_id = ? AND game_id = ?";
+            $stmt = $this->executeQuery($sql, [$new_score, $user_id, $game_id]);
+            return $stmt->rowCount() > 0;
+        } else {
+            // Insert nieuwe score
+            $sql = "INSERT INTO scores (player_id, game_id, score) VALUES (?, ?, ?)";
+            $stmt = $this->executeQuery($sql, [$user_id, $game_id, $new_score]);
+            return $stmt->rowCount() > 0;
+        }
     }
 
-    // Game methods
-    function get_all_games() {
-        // haal waardes op - return aray
-        return;
-    }
-    function get_game_by_id($id) {
-        // haal waarde op - return string
-        return;
+    public function score_exists($user_id, $game_id): bool {
+        $sql = "SELECT id FROM scores WHERE player_id = ? AND game_id = ?";
+        $stmt = $this->executeQuery($sql, [$user_id, $game_id]);
+        return $stmt->rowCount() > 0;
     }
 
+    // === Game Queries ===
+    public function get_all_games(): array {
+        $sql = "SELECT * FROM games";
+        $stmt = $this->executeQuery($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_game_by_id($id): ?string {
+        $sql = "SELECT name FROM games WHERE id = ?";
+        $stmt = $this->executeQuery($sql, [$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['name'] : null;
+    }
 }
-
 ?>

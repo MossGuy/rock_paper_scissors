@@ -13,86 +13,83 @@ function return_game_session(DBHandler $DBHandler): array {
     if (isset($_POST['go'])) {
         $game_mode = $_POST['game_mode'] ?? null;
         $db_status = $_POST['db_status'] ?? 'offline';
+
         if (!game_check($game_mode)) {
-            return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Ongeldige game mode.'];
+            $_SESSION['game_error'] = 'Ongeldige game mode.';
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         }
 
-        // database offline
+        // === OFFLINE modus ===
         if ($db_status === 'offline') {
             $player_name = $_POST['player_name'] ?? null;
 
             if (!$player_name) {
-                return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Vul je naam in.'];
+                $_SESSION['game_error'] = 'Vul je naam in.';
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit;
             }
 
-            // offline player aanmaken zonder wachtwoord
             $player = new Player($player_name);
         }
 
-        // database verbonden
-        if ($db_status === 'verbonden') {
+        // === ONLINE modus ===
+        elseif ($db_status === 'verbonden') {
             $username = $_POST['username'] ?? null;
             $password = $_POST['password'] ?? null;
             $auth_mode = $_POST['auth_mode'] ?? null;
 
             if (!$username || !$password || !$auth_mode) {
-                return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Vul gebruikersnaam, wachtwoord en modus in.'];
+                $_SESSION['game_error'] = 'Vul gebruikersnaam, wachtwoord en modus in.';
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit;
             }
 
-            switch($auth_mode) {
+            switch ($auth_mode) {
                 case 'login':
-                    // === valideer login: ===
-                    // --- true: ---
-                    //
-
-                    // --- false: ---
-
+                    if ($DBHandler->validate_login($username, $password)) {
+                        $user_data = $DBHandler->get_user_by_username($username);
+                        $player = new Player($user_data['username'], $user_data['id']);
+                    } else {
+                        $_SESSION['game_error'] = 'De opgegeven inloggegevens zijn incorrect.';
+                        header("Location: " . $_SERVER['PHP_SELF']);
+                        exit;
+                    }
                     break;
+
                 case 'register':
-                    // === bekijk of de username al geregistreerd is: ===
-                    // --- true: ---
-                    //
+                    if ($DBHandler->user_exists($username)) {
+                        $_SESSION['game_error'] = 'De opgegeven gebruikersnaam bestaat al.';
+                        header("Location: " . $_SERVER['PHP_SELF']);
+                        exit;
+                    }
 
-                    // --- false: ---
-                    //
+                    $user_id = $DBHandler->create_user($username, $password);
 
+                    if ($user_id) {
+                        $player = new Player($username, $user_id);
+                    } else {
+                        $_SESSION['game_error'] = 'Registratie mislukt. Probeer het opnieuw.';
+                        header("Location: " . $_SERVER['PHP_SELF']);
+                        exit;
+                    }
                     break;
+
                 default:
-                    return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Er is een onbekende fout met de login / nieuwe gebruiker selectie.'];
+                    $_SESSION['game_error'] = 'Onbekende fout bij de login/register keuze.';
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit;
             }
-
-            throw new Exception("Lekker debuggen: " . $auth_mode);
-
-            // TODO:
-            // --- nieuwe gebruiker aan database toevoegen ---
-            // --- player class maken en opslaan in de session ---
-
-            // review code van chatGPT
-            // if ($auth_mode === 'login') {
-            //     // ongebruikte methode call van chatGPT
-            //     $player = $DBHandler->loginPlayer($username, $password);
-
-            //     if (!$player) {
-            //         return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Inloggen mislukt.'];
-            //     }
-            // } elseif ($auth_mode === 'register') {
-            //     // ongebruikte methode call van chatGPT
-            //     $player = $DBHandler->registerPlayer($username, $password);
-
-            //     if (!$player) {
-            //         return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Registratie mislukt.'];
-            //     }
-            // } else {
-            //     return ['game_playable' => false, 'case' => 'formulier', 'error' => 'Ongeldige modus gekozen.'];
-            // }
         }
 
-        // Spelerobject opslaan
+        // === Spel initialiseren in sessie ===
         $_SESSION['game'] = [
             'game_mode' => $game_mode,
             'player' => serialize($player)
         ];
 
+        unset($_SESSION['game_error']); // Vorige fout verwijderen indien van toepassing
+        session_write_close();
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
@@ -104,14 +101,19 @@ function return_game_session(DBHandler $DBHandler): array {
 
         return [
             'game_playable' => true,
-            'case' => 'ophalen',
             'game_mode' => $game_mode,
             'player' => $player
         ];
     }
 
-    // === game sessie en formulier niet beschikbaar ===
-    return ['game_playable' => false];
+    // === Formulier is niet verzonden, toon evt. fout uit sessie ===
+    $error = $_SESSION['game_error'] ?? null;
+    unset($_SESSION['game_error']); // alleen 1x tonen
+
+    return [
+        'game_playable' => false,
+        'error' => $error
+    ];
 }
 
 

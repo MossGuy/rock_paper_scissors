@@ -18,11 +18,11 @@ use core\DBHandler;
 // === Database configuratie en handler aanmaken ===
 $DBConfig = new DBConfig('127.0.0.1', 'milan_games_db', 'root', '');
 $DBHandler = new DBHandler($DBConfig);
+
+$game_session = return_game_session($DBHandler);
+
 $db_online = $DBHandler->db_check();
 $db_online_string = $db_online ? 'verbonden' : 'offline';
-
-// === Haal de game-sessie op, nu met DBHandler als argument ===
-$game_session = return_game_session($DBHandler);
 
 if (!$game_session['game_playable']) {
     $error_message = $game_session['error'] ?? null;
@@ -116,8 +116,10 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                 <!-- feedback database -->
                 <div class="db_feedback">
                     <p>Database <?=$db_online_string?></p>
+                    <p class="accent"><?= $game_session['error']??''; ?></p>
                     <br>
                     <?=return_connect_button($db_online)?>
+                    <!-- TODO: Opnieuw indienen bevestigen afhandelen -->
                 </div>
             </section>
         <?php endif; ?>

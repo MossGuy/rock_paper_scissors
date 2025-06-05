@@ -11,6 +11,7 @@
     --Score_Text: hsl(229, 64%, 46%);
     --Header_Outline: hsl(217, 16%, 45%);
     --Radial_Gradient: hsl(214, 47%, 23%), hsl(237, 49%, 15%);
+    --accent: #de9821;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -166,6 +167,10 @@ main {
     display: none !important;
 }
 
+.accent {
+    color: var(--accent);
+}
+
 .textbox {
     padding: 0.5rem;
     background: unset;
@@ -229,7 +234,7 @@ main {
     height: 12px;
     margin: auto;
     border-radius: 9999px;
-    background-color: #de9821;
+    background-color: var(--accent);
   }
 
 .game_container {
