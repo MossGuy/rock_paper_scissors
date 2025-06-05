@@ -28,6 +28,7 @@ TODO:
     * gebruiker moet bestaande player gunnen sellecteren
   
   * DBHandler methodes uitschrijven en toepassen op de juiste plekken
+  * Administrator account maken die spelers kan beheren
 
 
 Bestanden in de repository met TODO items
