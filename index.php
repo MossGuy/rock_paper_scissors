@@ -163,7 +163,7 @@ $cpu_result = $game_data['cpu_result'] ?? '';
                 </form>
             </section>
         <?php endif; ?>
-        <?php include "./web_elements/rules.php";?>
+        <?php include "./web_elements/popups.php";?>
     </main>
     <?php include "./web_elements/footer.php"; ?>
 </body>

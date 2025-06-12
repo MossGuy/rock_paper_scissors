@@ -9,7 +9,7 @@ header
 footer
 main
 welkom_formulier
-rules_window
+popup_window
 universele_classes
 flexbox_classes
 overige_classes
@@ -75,6 +75,7 @@ button, .button, select {
     border-radius: 0.5rem;
     font-size: large;
     margin: 10px 0.5rem 0;
+    transition: 0.1s;
 }
 
 button:hover, .button:hover {
@@ -177,8 +178,8 @@ main {
     margin: 5px 0;
 }
 
-/* rules_window */
-.rules_window {
+/* popup_window */
+.popup_window {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -194,24 +195,39 @@ main {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-.rules_window.active {
+.popup_window.active {
     opacity: 1;
     visibility: visible;
 }
 
-.rules_window button {
+.popup_window button {
     background: transparent;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
 }
 
-.rules_window h2 {
+.popup_window form {
+    margin-top: 25%;
+    margin-bottom: 25%;
+}
+
+.popup_window h2 {
     color: var(--Dark_Text);
 }
 
-.rules_window button {
+.popup_window button {
     color: #aaa;
+}
+
+.quit_button {
+    margin-top: auto;
+    border-color: var(--Dark_Text);
+    color: var(--Dark_Text);
+}
+
+.quit_button:hover {
+    background-color: var(--Dark_Text_blend);
 }
 
 /* universele_classes */
@@ -250,6 +266,10 @@ main {
 
 .j_content_between {
     justify-content: space-between;
+}
+
+.items_center {
+    align-items: center;
 }
 
 /* overige_classes */
@@ -355,7 +375,7 @@ main {
         margin-bottom: 1rem;
     }
 
-    .rules_window {
+    .popup_window {
         width: 90%;
         max-height: 80vh;
         padding: 0.5rem;
@@ -363,7 +383,7 @@ main {
         aspect-ratio: auto;
     }
 
-    .rules_window img {
+    .popup_window img {
         width: 100%;
         height: auto;
         object-fit: contain;
@@ -400,7 +420,7 @@ main {
         flex-direction: column;
         align-items: center;
     }
-    .rules_window {
+    .popup_window {
         top: 20px;
         width: 90%;
         max-height: 80vh;
@@ -409,15 +429,4 @@ main {
         overflow-y: auto;
         aspect-ratio: auto;
     }
-}
-
-
-.overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0,0,0,0.5); /* donker, half transparant zwart */
-    opacity: 0;
-    pointer-events: none; /* zorgt dat je er niet op kan klikken als niet actief */
-    transition: opacity 0.3s ease;
-    z-index: 999; /* onder de rules_window maar boven de rest */
 }
