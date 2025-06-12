@@ -3,7 +3,6 @@ namespace games\rock_paper_scissors;
 
 use core\Game;
 use core\Player;
-use Exception;
 
 class Rock_paper_scissors extends Game {
     // propperties

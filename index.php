@@ -68,58 +68,63 @@ $cpu_result = $game_data['cpu_result'] ?? '';
 <body>
     <?php include "./web_elements/header.php"; ?>
     <main class="game_container">
-        <!-- Speler naam invoeren -->
+        <!-- Speler gegevens invoeren -->
         <?php if (!$player): ?>
             <section class="player_name_section">
-            <form action="" method="post" class="welcome_form flex_column">
-                <input type="hidden" name="db_status" id="db_status" value="<?=$db_online_string?>">
-                <div>
-                    <h2>Spelmodus</h2>
-                    <br>
-                    <select name="game_mode" id="game_mode">
-                        <option value="rock_paper_scissors">Steen Papier Schaar</option>
-                        <option value="rock_paper_scissors_lizard_spock">Steen Papier Schaar Hagedis Spock</option>
-                    </select>
-                </div>
-                <br>
-
-                <!-- Dynamisch deel op basis van databaseverbinding -->
-                <?php if ($db_online): ?>
+                <form action="" method="post" class="welcome_form flex_column">
+                    <input type="hidden" name="db_status" id="db_status" value="<?=$db_online_string?>">
                     <div>
-                        <h2>Speler login / registratie</h2>
+                        <h2>Spelmodus</h2>
                         <br>
-                        <label class="radioItem">
-                            <input class="radioButton" type="radio" name="auth_mode" value="login" checked onchange="toggleAuthMode()"> Bestaande speler
-                        </label>
-                        <label class="radioItem">
-                            <input class="radioButton" type="radio" name="auth_mode" value="register" onchange="toggleAuthMode()"> Nieuwe speler
-                        </label>
-                        <br><br>
-                        <div id="auth_fields">
-                            <input class="textbox" type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
-                            <input class="textbox" type="password" id="password" name="password" placeholder="Wachtwoord" required>
-                        </div>
+                        <select name="game_mode" id="game_mode">
+                            <option value="rock_paper_scissors">Steen Papier Schaar</option>
+                            <option value="rock_paper_scissors_lizard_spock">Steen Papier Schaar Hagedis Spock</option>
+                        </select>
                     </div>
-                <?php else: ?>
-                    <!-- Fallback als geen database is verbonden -->
-                    <div>
-                        <input class="textbox" type="text" id="player_name" name="player_name" placeholder="Wat is je naam?" required>
-                    </div>
-                <?php endif; ?>
-
-                <br>
-                <input class="button" type="submit" name="go" value="Start het spel">
-            </form>
-
-
-                <!-- feedback database -->
-                <div class="db_feedback">
-                    <p>Database <?=$db_online_string?></p>
-                    <p class="accent"><?= $game_session['error']??''; ?></p>
                     <br>
-                    <?=return_connect_button($db_online)?>
-                </div>
+
+                    <!-- Dynamisch deel op basis van databaseverbinding -->
+                    <?php if ($db_online): ?>
+                        <div>
+                            <h2>Speler login / registratie</h2>
+                            <br>
+                            <label class="radioItem">
+                                <input class="radioButton" type="radio" name="auth_mode" value="login" checked onchange="toggleAuthMode()"> Bestaande speler
+                            </label>
+                            <label class="radioItem">
+                                <input class="radioButton" type="radio" name="auth_mode" value="register" onchange="toggleAuthMode()"> Nieuwe speler
+                            </label>
+                            <br><br>
+                            <div id="auth_fields">
+                                <input class="textbox" type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
+                                <input class="textbox" type="password" id="password" name="password" placeholder="Wachtwoord" required>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <!-- Fallback als geen database is verbonden -->
+                        <div>
+                            <input class="textbox" type="text" id="player_name" name="player_name" placeholder="Wat is je naam?" required>
+                        </div>
+                    <?php endif; ?>
+
+                    <br>
+                    <input class="button" type="submit" name="go" value="Start het spel">
+                </form>
             </section>
+
+            <!-- feedback database -->
+            <?php if ($game_session['error'] || !$db_online):?>
+                <section>
+                    <div class="db_feedback">
+                        <?php if (!$db_online): ?>
+                            <p class="warning">Database <strong><?= $db_online_string?></strong>.</p>
+                        <?php endif; ?>
+                        <p class="accent"><?= $game_session['error']??''; ?></p>
+                        <br>
+                        <?=return_connect_button($db_online)?>
+                    </div>
+                </section>
+            <?php endif;?>
         <?php endif; ?>
 
         <!-- Game beginnen -->
