@@ -12,7 +12,13 @@ Namespaces:
         └── Rock_paper_scissors
         └── Rock_paper_scissors_lizard_spock
 
+TOFIX:
+* Van gamemode veranderen met de knop pakt de score niet goed mee.
+  Button om van gamemode te switchen kan eventueel verwijderd worden. 
+  Inloggegevens kunnen dymamisch in worden gevuld na het uitloggen.
+
 TODO:
+* optioneel: leaderbord pagina
 * optioneel: buttons maken zoals het originele design
 * optioneel: titel vervangen met de svg icon
 
