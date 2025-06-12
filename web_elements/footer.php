@@ -4,11 +4,6 @@
         <input class="button" type="submit" name="change" id="change" value="Verander spelmodus">
         <input class="button" type="submit" name="exit" id="exit" value="Stoppen">
     </form>
-    <button>regels</button>
-
-    <section>
-        <!-- regels afbeelding dynamisch ophalen doormiddel van het pad atribuut van de class -->
-         
-    </section>
+    <button id="show_rules_btn">regels</button>
     <?php endif; ?>
 </footer>
