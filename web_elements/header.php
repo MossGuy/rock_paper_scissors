@@ -1,7 +1,5 @@
 <?php
-$title = 'Welkom'; // Default titel
-
-$title = ((isset($player) && method_exists($game, 'getDisplayTitle')) ? $game->getDisplayTitle() : '');
+$title = ((isset($player) && method_exists($game, 'getDisplayTitle')) ? $game->getDisplayTitle() : 'Welkom');
 $score = (isset($game) && method_exists($player, 'getScore')) ? $player->getScore($game->getTitle()) : '';
 ?>
 
