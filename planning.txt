@@ -13,9 +13,6 @@ Namespaces:
         └── Rock_paper_scissors_lizard_spock
 
 TODO:
-* regels pop-up maken + werkend maken met javascript
-* laat speler van game en spelernaam switchen
-
 * optioneel: buttons maken zoals het originele design
 * optioneel: titel vervangen met de svg icon
 
@@ -23,8 +20,6 @@ TODO:
 * laatste toevoeging: database connectie met spelers en score
   Taken database connectie:
   * Administrator account maken die spelers kan beheren
-  * database feedback alleen tonen als:
-    database niet verbonden is OF $_SESSION['game_error'] bestaat
 
 
 Bestanden in de repository met TODO items
